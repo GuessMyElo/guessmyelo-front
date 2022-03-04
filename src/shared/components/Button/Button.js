@@ -1,3 +1,5 @@
-export default function Button() {
-    return <button></button>
+import './Button.scss';
+
+export default function Button({children}) {
+    return <button>{children}</button>
 }

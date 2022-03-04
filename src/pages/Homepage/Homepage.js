@@ -1,8 +1,9 @@
 import React from 'react';
 import './Homepage.scss';
-import FloatingCard from '../../shared/components/FloatingCard/FloatingCard';
-import Picture from '../../modules/Player/Avatar/atoms/Picture/Picture';
-import Button from '../../shared/components/Button/Button';
+import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
+import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
+import Button from '@/shared/components/Button/Button';
+import TextField from '@/shared/components/TextField/TextField';
 
 export default function Homepage(){
     return (
@@ -20,9 +21,14 @@ export default function Homepage(){
                         </div>
                     </div>
                 </div>
-                <div>
+                <form>
+                    <TextField placeholder="Pseudo" />
+                    <div className='form-row'>
+                        <TextField placeholder="Code de la partie" />
+                        <Button>Rejoindre la partie</Button>
+                    </div>
                     <Button>Créer une partie</Button>
-                </div>
+                </form>
             </FloatingCard>
         </div>
     )

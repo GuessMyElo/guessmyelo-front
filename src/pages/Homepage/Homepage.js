@@ -30,7 +30,9 @@ export default function Homepage(){
                         <Button>Rejoindre la partie</Button>
                     </div>
                     <Button>Créer une partie</Button>
-                    <Button reversed><Link to="/upload">Uploader une video</Link></Button>
+                    <Link to="/upload">
+                        <Button reversed>Uploader une video</Button>
+                    </Link>
                 </form>
             </FloatingCard>
         </div>

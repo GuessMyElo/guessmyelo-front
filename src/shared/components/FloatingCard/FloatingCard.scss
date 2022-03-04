@@ -1,16 +1,20 @@
+@import '../../../global.scss';
+
 .floatingcard {
-    background-color: #121834;
+    background-color: $secondary-color;
     box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.55);
-    width: 50%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 10px;
+    padding: 20px;
     border-radius: 6px;
 } 
 
 .floatingcard h1 {
     text-align: center;
     width: 100%;
+    color: $purple-color;
+    font-weight: bold;
+    text-transform: uppercase;
 }

@@ -1,5 +1,6 @@
 .homepage-container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
@@ -46,6 +47,10 @@
             align-items: center;
             width: 100%;
             gap: 15px;
+        }
+
+        a {
+            width: 100%;
         }
     }
 }

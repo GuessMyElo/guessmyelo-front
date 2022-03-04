@@ -1,0 +1,12 @@
+@import '../../../global.scss';
+
+button {
+    background-color: $purple-color;
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 3px;
+    width: 100%;
+    cursor: pointer;
+}

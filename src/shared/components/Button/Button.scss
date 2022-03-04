@@ -2,11 +2,36 @@
 
 button {
     background-color: $purple-color;
-    color: #fff;
     border: none;
     font-weight: bold;
     padding: 10px 20px;
     border-radius: 3px;
-    width: 100%;
     cursor: pointer;
+    transition: background-color 0.35s;
+
+    a {
+        text-decoration: none;
+        color: #fff;
+    }
+
+    &:hover {
+        background-color: $purple-hover-color;
+    }
+
+    &.isReversed {
+        color: $purple-color;
+        background-color: transparent;
+        border: 2px solid $purple-color;
+        transition: border 0.35s, color 0.35s;
+
+        a {
+            text-decoration: none;
+            color: $purple-color;
+        }
+    
+        &:hover {
+            border: 2px solid $purple-hover-color;
+            color: $purple-hover-color;
+        }
+    }
 }

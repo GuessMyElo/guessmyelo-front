@@ -1,22 +1,21 @@
 $background-color: #070C26;
 $secondary-color: #121834;
 $purple-color: #6953C3;
+$purple-hover-color: #534197;
+
+@font-face {
+    font-family: 'Azo Sans Black';
+    src: url('shared/fonts/azo-sans/AzoSans-Black.ttf') format('truetype'),
+}
 
 @font-face {
     font-family: 'Azo Sans Bold';
     src: url('shared/fonts/azo-sans/AzoSans-Bold.ttf') format('truetype'),
-        url('shared/fonts/azo-sans/AzoSans-Bold.eot') format('embedded-opentype'),
-        url('shared/fonts/azo-sans/AzoSans-Bold.woff') format('woff'),
-        url('shared/fonts/azo-sans/AzoSans-Bold.woff2') format('woff2');
-
 }
 
 @font-face {
     font-family: 'Azo Sans Regular';
     src: url('shared/fonts/azo-sans/AzoSans-Regular.ttf') format('truetype'),
-        url('shared/fonts/azo-sans/AzoSans-Regular.eot') format('embedded-opentype'),
-        url('shared/fonts/azo-sans/AzoSans-Regular.woff') format('woff'),
-        url('shared/fonts/azo-sans/AzoSans-Regular.woff2') format('woff2');
 }
 
 *, *::after, *::before {

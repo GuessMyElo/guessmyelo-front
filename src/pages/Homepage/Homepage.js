@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from "react-router-dom";
+
 import './Homepage.scss';
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
 import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
@@ -28,6 +30,7 @@ export default function Homepage(){
                         <Button>Rejoindre la partie</Button>
                     </div>
                     <Button>Créer une partie</Button>
+                    <Button reversed><Link to="/upload">Uploader une video</Link></Button>
                 </form>
             </FloatingCard>
         </div>

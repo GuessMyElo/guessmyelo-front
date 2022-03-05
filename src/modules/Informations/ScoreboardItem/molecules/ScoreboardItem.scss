@@ -1,0 +1,17 @@
+@import '@/global.scss';
+
+.scoreboard-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 30px;
+    background-color: $secondary-color;
+    border-radius: 4px;
+    padding: 8px 10px;
+
+    &.even-item {
+        background-color: #161C38;
+    }
+}

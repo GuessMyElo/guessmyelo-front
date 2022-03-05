@@ -1,20 +1,18 @@
+import Scoreboard from 'pages/Scoreboard/Scoreboard';
+import {BrowserRouter, Routes, Route} from 'react-router-dom';
+
+import Homepage from './pages/Homepage/Homepage';
+import Upload from './pages/Upload/Upload';
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route exact path='/' element={<Homepage/>} />
+        <Route exact path='/upload' element={<Upload/>} />
+        <Route exact path='/scoreboard' element={<Scoreboard/>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

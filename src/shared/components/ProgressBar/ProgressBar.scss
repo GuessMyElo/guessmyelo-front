@@ -1,0 +1,20 @@
+@import '@/global.scss';
+
+.progressbar {
+    width: 500px;
+    background-color: #070C26;
+    height: 15px;
+    border-radius: 30px;
+    position: relative;
+    overflow: hidden;
+
+    div {
+        margin: 0;
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background-color: $purple-color;
+        transition: width 0.35s;
+    }
+}

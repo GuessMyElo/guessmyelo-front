@@ -10,12 +10,13 @@
     padding: 20px;
     border-radius: 10px;
     max-width: min-content;
+
+    h1 {
+        text-align: center;
+        width: 100%;
+        color: $purple-color;
+        text-transform: uppercase;
+        font-family: 'Azo Sans Black';
+     }
 }
 
-.floatingcard h1 {
-    text-align: center;
-    width: 100%;
-    color: $purple-color;
-    text-transform: uppercase;
-    font-family: 'Azo Sans Black';
-}

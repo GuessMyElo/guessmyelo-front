@@ -1,3 +1,17 @@
 .game-container{
     display: flex;
+
+    
+    .game-player-list{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        padding-top: 20px;
+        gap: 20px;
+        overflow: hidden;
+        
+    }
+
+    
 }

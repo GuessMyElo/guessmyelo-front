@@ -1,0 +1,26 @@
+@import '@/global.scss';
+
+.votingbutton-container{
+    background-color: $secondary-color;
+    width: 125px;
+    height: 75px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
+    outline: none;
+    border: none;
+    transition: background-color 0.35s;
+
+    &:hover{
+        background-color: #42496b;
+    }
+    
+    img{
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%,-50%);
+        max-width: 100%;
+        max-height: 100%;
+    }
+}

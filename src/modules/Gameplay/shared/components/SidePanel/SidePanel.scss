@@ -1,5 +1,64 @@
+@import '@/global.scss';
+ 
 .sidepanel-container{
-    width: 20vh;
     height: 100vh;
-    background-color: aqua;
+
+    .game-player-list{
+        
+        display: block;
+        width: 20vh;
+        height: 100%;
+        background-color: $secondary-color;
+        overflow-y: scroll;
+        padding: 50% 0;
+
+        &::-webkit-scrollbar-track{
+            background-color: transparent;
+        }
+        &::-webkit-scrollbar {
+            width: 0px  
+        }
+        &::before{
+            position: absolute;
+            top: 0;
+            content: "";
+            height: 10%;
+            width: 20vh;
+            z-index: 9999;
+            background: linear-gradient(to bottom,#121834,#12183400);
+        }
+        &::after{
+            position: absolute;
+            bottom: 0;
+            content: "";
+            height: 10%;
+            width: 20vh;
+            z-index: 9999;
+            background:linear-gradient(to top,#121834,#12183400);
+        }
+    }
+    
+
+
+}
+.left{
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    &::before{
+        border-top-right-radius: 50px;
+    }
+    &::after{
+        border-bottom-right-radius: 50px;
+    }
+}
+
+.right{
+    border-top-left-radius: 50px;
+    border-bottom-left-radius: 50px; 
+    &::before{
+        border-top-left-radius: 50px;
+    }
+    &::after{
+        border-bottom-left-radius: 50px;
+    }
 }

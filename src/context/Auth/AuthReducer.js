@@ -5,9 +5,7 @@ let user = null;
 
 if (auth_token) {
     const decryptedToken = jwt_decode(auth_token);
-    const currentDate = new Date();
-    const expDate = new Date(decryptedToken.exp * 1000);
-    user = currentDate <= expDate ? decryptedToken.user : null
+    user = decryptedToken || null
 }
 
 export const initialState = {
@@ -25,7 +23,6 @@ export const AuthReducer = (initialState, action) => {
                 loading: true
             }
         case "LOGIN_SUCCESS":
-            console.log(action.payload)
             return {
                 ...initialState,
                 user: action.payload.user,

@@ -1,6 +1,5 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
-import { AuthProvider } from "./context/Auth";
-
+import { useAuthDispatch } from 'context/Auth';
 import Homepage from './pages/Homepage/Homepage';
 import Upload from './pages/Upload/Upload';
 import Login from './pages/Login/Login';
@@ -8,10 +7,10 @@ import Scoreboard from 'pages/Scoreboard/Scoreboard';
 import Register from 'pages/Register/Register';
 import AuthRoute from 'modules/Route/AuthRoute';
 import UnAuthRoute from 'modules/Route/UnAuthRoute';
+import { useEffect } from 'react';
 
 function App() {
   return (
-    <AuthProvider>
       <BrowserRouter>
         <Routes>
           <Route element={<AuthRoute redirect="/login" />}>
@@ -25,7 +24,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-    </AuthProvider>
   );
 }
 

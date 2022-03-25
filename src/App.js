@@ -1,6 +1,7 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import { useAuthDispatch } from 'context/Auth';
 import Homepage from './pages/Homepage/Homepage';
+import Game from './pages/Game/Game';
 import Upload from './pages/Upload/Upload';
 import Login from './pages/Login/Login';
 import Scoreboard from 'pages/Scoreboard/Scoreboard';

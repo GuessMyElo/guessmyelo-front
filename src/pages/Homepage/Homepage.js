@@ -2,12 +2,15 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 import './Homepage.scss';
+import { useAuthState } from "context/Auth";
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
 import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
 import Button from '@/shared/components/Button/Button';
 import TextField from '@/shared/components/TextField/TextField';
 
 export default function Homepage(){
+    const auth = useAuthState();
+
     return (
         <div className='homepage-container'>
             <FloatingCard>
@@ -24,7 +27,7 @@ export default function Homepage(){
                     </div>
                 </div>
                 <form>
-                    <TextField placeholder="Pseudo" />
+                    <TextField placeholder={auth.user ? auth.user.username : "Pseudo"} readonly />
                     <div className='form-row'>
                         <TextField placeholder="Code de la partie" />
                         <Button>Rejoindre la partie</Button>

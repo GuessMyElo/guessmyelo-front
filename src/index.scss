@@ -1,0 +1,36 @@
+@font-face {
+    font-family: 'Azo Sans Black';
+    src: url('shared/fonts/azo-sans/AzoSans-Black.ttf') format('truetype'),
+}
+
+@font-face {
+    font-family: 'Azo Sans Bold';
+    src: url('shared/fonts/azo-sans/AzoSans-Bold.ttf') format('truetype'),
+}
+
+@font-face {
+    font-family: 'Azo Sans Regular';
+    src: url('shared/fonts/azo-sans/AzoSans-Regular.ttf') format('truetype'),
+}
+
+*, *::after, *::before {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Azo Sans Regular';
+}
+
+body {
+    background-color: #070C26;
+    color: #fff;
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: stretch;
+}
+
+#root {
+    flex-grow: 3;
+}

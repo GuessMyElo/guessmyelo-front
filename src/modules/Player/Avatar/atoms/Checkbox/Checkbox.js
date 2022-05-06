@@ -1,5 +1,7 @@
 import './Checkbox.scss';
+import { FaCheck } from "react-icons/fa";
 import { useEffect } from 'react';
+import Loader from 'shared/components/Loader/Loader';
 
 export default function Checkbox({status, size}) {
     var test = false;
@@ -20,13 +22,13 @@ export default function Checkbox({status, size}) {
 
     return (
         <div className={'checkbox'} style={{width: size + 'px', height: size + 'px', backgroundColor: status === "done" ? "#2ACE5B" : "#6953C3" }}>
-            {test ? (
+            {status === "done" ? (
                 //TODO Ajouté svg "V" : validated / checked
-                <p></p>
+                <FaCheck/>
             )
             :(
                 //TODO Ajouté "..." animé (gif ou style "est en train d ecrire")
-                <p></p>
+                <Loader/>
             )
             }
         </div>

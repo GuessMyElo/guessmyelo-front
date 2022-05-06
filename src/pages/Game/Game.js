@@ -5,6 +5,8 @@ import SidePanel from '../../modules/Gameplay/shared/components/SidePanel/SidePa
 import GameAvatar from 'modules/Player/Avatar/molecules/GameAvatar';
 import VideoSection from 'modules/Gameplay/atoms/VideoSection/VideoSection';
 import NumberRoundSection from 'modules/Gameplay/atoms/NumberRoundSection/NumberRoundSection';
+import ProgressBar from 'shared/components/ProgressBar/ProgressBar';
+
 
 export default function Game(){
     return (
@@ -26,10 +28,11 @@ export default function Game(){
             </div>
             <div className='game-right-section'>
                 <NumberRoundSection>
-                    7/10
+                    <p>7/10</p>
                 </NumberRoundSection>
                 <VideoSection/>
                 <VotingSection/>
+                <ProgressBar/>
             </div>
         </div>
     )

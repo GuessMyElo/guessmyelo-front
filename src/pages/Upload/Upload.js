@@ -1,15 +1,17 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
 import InputField from 'shared/components/InputField/InputField';
 import ProgressBar from 'shared/components/ProgressBar/ProgressBar';
 import axios from 'axiosConfig';
 import './Upload.scss';
 import Button from 'shared/components/Button/Button';
+import VideoSection from 'modules/Gameplay/atoms/VideoSection/VideoSection';
 
 export default function Upload() {
     const [uploadPercentage, setUploadPercentage] = useState(0);
     const [file, setFile] = useState(null);
     const [videoSrc, setVideoSrc] = useState("");
+    const videoRef = useRef();
 
     const handleSubmit = async () => {
         const signResponse = await axios.get("/signature");
@@ -47,7 +49,8 @@ export default function Upload() {
                 <label htmlFor="video-input" className='video-input-label'>
                     Choisir un fichier
                 </label>
-                {file && <div className="preview">{}</div> }
+                {file && <button onClick={() => {setFile(null);setVideoSrc("")}}>Enlever</button> }
+                {file && videoSrc && <VideoSection source={videoSrc} videoRef={videoRef} /> }
                 <Button size={"20%"} onClick={() => handleSubmit()} disabled={!file}>Envoyer la vidéo</Button>
                 <ProgressBar value={uploadPercentage} />
             </FloatingCard>

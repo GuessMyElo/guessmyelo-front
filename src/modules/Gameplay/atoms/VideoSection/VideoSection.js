@@ -1,8 +1,8 @@
 import './VideoSection.scss';
 
-export default function VideoSection({source,videoRef}) {
+export default function VideoSection({source,videoRef, ...rest}) {
     return (
-        <div className="videosection-container">
+        <div {...rest} className="videosection-container">
             <video autoPlay loop muted ref={videoRef}>
                 <source src={source} type="video/mp4" />
             </video>

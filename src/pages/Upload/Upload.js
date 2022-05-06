@@ -9,9 +9,10 @@ import VideoSection from 'modules/Gameplay/atoms/VideoSection/VideoSection';
 
 export default function Upload() {
     const [uploadPercentage, setUploadPercentage] = useState(0);
-    const [file, setFile] = useState(null);
+    const [file, setFile] = useState("");
     const [videoSrc, setVideoSrc] = useState("");
     const videoRef = useRef();
+    const inputRef = useRef();
 
     const handleSubmit = async () => {
         const signResponse = await axios.get("/signature");
@@ -29,34 +30,38 @@ export default function Upload() {
         axios.post(url, formData, {
             onUploadProgress: ProgressEvent => setUploadPercentage((ProgressEvent.loaded / ProgressEvent.total) * 100)
         })
+        .then(() => {
+            resetFile();
+        })
         .catch((err) => {
             console.log(err);
         })
     }
 
-    const handleFileChange = (file) => {
-        setFile(file);
+    const handleFileChange = (newFile) => {
+        setFile(newFile);
 
-        const url = URL.createObjectURL(file);
+        const url = URL.createObjectURL(newFile);
         setVideoSrc(url);
     }
 
-    const handleRemoveFile = () => {
+    const resetFile = () => {
         setFile(null);
         setVideoSrc("");
+        inputRef.current.value = "";
     }
 
     return (
         <div className='upload-container'>
             <FloatingCard>
                 <h1>Upload</h1>
-                <InputField id="video-input" type="file" accept="video/*" onChange={(e) => handleFileChange(e.target.files[0])}/>
+                <InputField id="video-input" type="file" accept="video/*" inputRef={inputRef} onChange={(e) => handleFileChange(e.target.files[0])}/>
                 <label htmlFor="video-input" className='video-input-label'>
                     Choisir un fichier
                 </label>
-                {file && <button onClick={() => handleRemoveFile()}>Enlever</button> }
+                {file && <button onClick={resetFile}>Enlever</button> }
                 {file && videoSrc && <VideoSection source={videoSrc} videoRef={videoRef} /> }
-                <Button size={"20%"} onClick={() => handleSubmit()} disabled={!file}>Envoyer la vidéo</Button>
+                <Button size={"20%"} onClick={handleSubmit} disabled={!file}>Envoyer la vidéo</Button>
                 <ProgressBar value={uploadPercentage} />
             </FloatingCard>
         </div>

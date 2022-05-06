@@ -1,8 +1,8 @@
 import './SidePanel.scss';
 
-export default function SidePanel({children}) {
+export default function SidePanel({children,position}) {
     return (
-        <div className="sidepanel-container">
+        <div className={'sidepanel-container '+position}>
             {children}
         </div>
     )

@@ -30,7 +30,7 @@ export default function Game(){
                 <NumberRoundSection>
                     <p>7/10</p>
                 </NumberRoundSection>
-                <VideoSection/>
+                <VideoSection source={'/videos/leagues.mp4'}/>
                 <VotingSection/>
                 <ProgressBar/>
             </div>

@@ -19,6 +19,11 @@
         align-items: center;
         width: calc(100% - 160px);
         height: 100vh;
+
+        .progressbar{
+            width: 100%;
+            height: 10px;
+        }
     }
 
     .game-player-list{

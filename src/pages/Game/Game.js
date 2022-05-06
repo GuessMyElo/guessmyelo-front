@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './Game.scss';
 import VotingSection from '../../modules/Gameplay/molecules/VotingSection/VotingSection';
 import SidePanel from '../../modules/Gameplay/shared/components/SidePanel/SidePanel';
@@ -8,7 +8,15 @@ import NumberRoundSection from 'modules/Gameplay/atoms/NumberRoundSection/Number
 import ProgressBar from 'shared/components/ProgressBar/ProgressBar';
 
 
-export default function Game(){
+export default function Game() {
+
+    const videoRef = useRef();
+    const [videoCurrentProgress, setVideoCurrentProgress] = useState(0);
+
+    useEffect(() => {
+        videoRef.current.addEventListener("timeupdate", () => setVideoCurrentProgress((videoRef.current.currentTime / videoRef.current.duration) * 100));
+    }, [])
+
     return (
         <div className='game-container'>
             <div className='game-left-section'>
@@ -16,7 +24,7 @@ export default function Game(){
                     <div className='game-player-list'>
                         <GameAvatar src="images/player.jpg" size="80" status={"done"} />
                         <GameAvatar src="images/player.jpg" size="80" status={"waiting"} />
-                        <GameAvatar src="images/player.jpg" size="80" status={""} />                    
+                        <GameAvatar src="images/player.jpg" size="80" status={""} />
                         <GameAvatar src="images/player.jpg" size="80" status={"waiting"} />
                         <GameAvatar src="images/player.jpg" size="80" status={undefined} />
                         <GameAvatar src="images/player.jpg" size="80" status={"waiting"} />
@@ -30,9 +38,10 @@ export default function Game(){
                 <NumberRoundSection>
                     <p>7/10</p>
                 </NumberRoundSection>
-                <VideoSection source={'/videos/leagues.mp4'}/>
-                <VotingSection/>
-                <ProgressBar/>
+                <VideoSection source={'/videos/leagues.mp4'} videoRef ={videoRef} />
+                <VotingSection />
+                {videoCurrentProgress}
+                <ProgressBar value={videoCurrentProgress} />
             </div>
         </div>
     )

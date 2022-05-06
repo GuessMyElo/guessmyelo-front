@@ -41,6 +41,11 @@ export default function Upload() {
         setVideoSrc(url);
     }
 
+    const handleRemoveFile = () => {
+        setFile(null);
+        setVideoSrc("");
+    }
+
     return (
         <div className='upload-container'>
             <FloatingCard>
@@ -49,7 +54,7 @@ export default function Upload() {
                 <label htmlFor="video-input" className='video-input-label'>
                     Choisir un fichier
                 </label>
-                {file && <button onClick={() => {setFile(null);setVideoSrc("")}}>Enlever</button> }
+                {file && <button onClick={() => handleRemoveFile()}>Enlever</button> }
                 {file && videoSrc && <VideoSection source={videoSrc} videoRef={videoRef} /> }
                 <Button size={"20%"} onClick={() => handleSubmit()} disabled={!file}>Envoyer la vidéo</Button>
                 <ProgressBar value={uploadPercentage} />

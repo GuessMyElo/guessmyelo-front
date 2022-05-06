@@ -32,7 +32,9 @@ export default function Homepage(){
                         <InputField placeholder="Code de la partie" />
                         <Button>Rejoindre la partie</Button>
                     </div>
-                    <Button>Créer une partie</Button>
+                    <Link to="/game">
+                        <Button>Créer une partie</Button>
+                    </Link>
                     <Link to="/upload">
                         <Button reversed>Uploader une video</Button>
                     </Link>

@@ -6,7 +6,7 @@ export default class Discord extends Auth {
         super(type);
         this.discord_access = null;
         this.response_type = 'code';
-        this.scope = 'email';
+        this.scope = 'identify%20email';
         this.redirect_uri = 'http://localhost:3000/auth/discord';
         this.url = `https://discord.com/api/oauth2/authorize?client_id=${process.env.REACT_APP_DISCORD_CLIENT_ID}&redirect_uri=${this.redirect_uri}&response_type=${this.response_type}&scope=${this.scope}`;
     }

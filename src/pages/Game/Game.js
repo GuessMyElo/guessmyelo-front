@@ -48,15 +48,9 @@ export default function Game() {
                 <NumberRoundSection>
                     <p>7/10</p>
                 </NumberRoundSection>
-<<<<<<< HEAD
                 <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
                 <VotingSection />
                 <ProgressBar value={videoCurrentProgress} />
-=======
-                <VideoSection/>
-                <VotingSection/>
-                <ProgressBar/>
->>>>>>> 75d9e1e (Front page Game)
             </div>
         </div>
     )

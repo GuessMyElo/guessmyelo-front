@@ -6,11 +6,15 @@ import axios from 'axiosConfig';
 import './Upload.scss';
 import Button from 'shared/components/Button/Button';
 import VideoSection from 'modules/Gameplay/atoms/VideoSection/VideoSection';
+import Select from 'shared/components/Select/Select';
+import { Capitalize } from 'Utils';
 
 export default function Upload() {
     const [uploadPercentage, setUploadPercentage] = useState(0);
     const [file, setFile] = useState("");
     const [videoSrc, setVideoSrc] = useState("");
+    const [elo, setElo] = useState("");
+    const eloOptions = ["iron","bronze","silver","gold","platine","diamant","master","grandmaster","challenger"]
     const videoRef = useRef();
     const inputRef = useRef();
 
@@ -61,6 +65,7 @@ export default function Upload() {
                 </label>
                 {file && <button onClick={resetFile}>Enlever</button> }
                 {file && videoSrc && <VideoSection source={videoSrc} videoRef={videoRef} /> }
+                <Select size={"50%"} options={eloOptions.map((value) => ({text : Capitalize(value), value }))} value={elo} onChange={(e) => setElo(e.target.value)}/>
                 <Button size={"20%"} onClick={handleSubmit} disabled={!file}>Envoyer la vidéo</Button>
                 <ProgressBar value={uploadPercentage} />
             </FloatingCard>

@@ -40,7 +40,6 @@ export default function Game() {
                 </NumberRoundSection>
                 <VideoSection source={'/videos/leagues.mp4'} videoRef ={videoRef} />
                 <VotingSection />
-                {videoCurrentProgress}
                 <ProgressBar value={videoCurrentProgress} />
             </div>
         </div>

@@ -4,6 +4,7 @@ import TextField from '@/shared/components/TextField/TextField';
 import { Link, useNavigate } from 'react-router-dom';
 import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
 import axios from 'axios';
+import { useAuthDispatch } from 'context/Auth';
 import './Register.scss';
 import { useState } from 'react';
 
@@ -12,6 +13,7 @@ export default function Register() {
     const email = useRef();
     const password = useRef();
     const confirmPassword = useRef();
+    const dispatch = useAuthDispatch()
 
     const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
@@ -49,7 +51,8 @@ export default function Register() {
             try {
                 const res = await axios.post(`${process.env.REACT_APP_API_URL}/users/add`, payload);
                 if (!res.error) {
-                    navigate('/login');
+                    console.log(res);
+                    dispatch({type: "LOGIN_SUCCESS", payload: res.data})
                 }
             } catch(err) {
                 console.error(err);

@@ -4,10 +4,8 @@ export async function login(dispatch, payload) {
     try {
         dispatch({ type: "REQUEST_LOGIN" });
         const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, payload);
-
         if (res.data.user) {
             dispatch({ type: 'LOGIN_SUCCESS', payload: res.data });
-            localStorage.setItem('guessmyelo_auth_token', res.data.accessToken);
             return res.data.user;
         }
        

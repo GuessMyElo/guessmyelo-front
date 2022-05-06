@@ -9,8 +9,8 @@ if (auth_token) {
 }
 
 export const initialState = {
-    auth_token: auth_token,
-    user: user,
+    auth_token,
+    user,
     loading: false,
     errorMessage: null
 }
@@ -23,6 +23,7 @@ export const AuthReducer = (initialState, action) => {
                 loading: true
             }
         case "LOGIN_SUCCESS":
+            localStorage.setItem('guessmyelo_auth_token', action.payload.accessToken);
             return {
                 ...initialState,
                 user: action.payload.user,

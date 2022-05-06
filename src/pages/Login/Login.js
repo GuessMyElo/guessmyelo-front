@@ -6,6 +6,8 @@ import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
 import './Login.scss';
 import { login, useAuthState, useAuthDispatch } from 'context/Auth';
 import { useNavigate } from 'react-router';
+import AuthFactory from 'models/Auth/AuthFactory';
+import AuthServiceEnum from 'models/Auth/AuthServiceEnum';
 
 export default function Login() {
     const identifier = useRef();
@@ -20,12 +22,16 @@ export default function Login() {
         const payload = { auth: identifier.current.value, password: password.current.value };
         try {
             const res = await login(dispatch, payload);
-            console.log(res);
             if (!res) return;
             navigate('/');
         } catch(err) {
             console.error(err);
         }
+    }
+
+    const startAuthProcess = (type) => {
+        const service = new (new AuthFactory().createByType(type))(type)
+        service.redirect();
     }
 
     return (
@@ -39,6 +45,8 @@ export default function Login() {
                 <Link to="/register">
                     <Button reversed>Register</Button>
                 </Link>
+                <button onClick={() => startAuthProcess(AuthServiceEnum.TWITCH)}>Twitch</button>
+                <button onClick={() => startAuthProcess(AuthServiceEnum.DISCORD)}>Discord</button>
             </FloatingCard>
         </div>
     )

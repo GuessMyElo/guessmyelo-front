@@ -5,7 +5,7 @@ import './Homepage.scss';
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
 import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
 import Button from '@/shared/components/Button/Button';
-import TextField from '@/shared/components/TextField/TextField';
+import InputField from '@/shared/components/InputField/InputField';
 
 export default function Homepage(){
     return (
@@ -24,9 +24,9 @@ export default function Homepage(){
                     </div>
                 </div>
                 <form>
-                    <TextField placeholder="Pseudo" />
+                    <InputField placeholder="Pseudo" />
                     <div className='form-row'>
-                        <TextField placeholder="Code de la partie" />
+                        <InputField placeholder="Code de la partie" />
                         <Button>Rejoindre la partie</Button>
                     </div>
                     <Button>Créer une partie</Button>

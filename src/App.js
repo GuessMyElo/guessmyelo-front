@@ -6,7 +6,7 @@ import Upload from './pages/Upload/Upload';
 import Login from './pages/Login/Login';
 import Scoreboard from 'pages/Scoreboard/Scoreboard';
 import Register from 'pages/Register/Register';
-
+import Lobby from 'pages/Lobby/Lobby';
 import AuthRoute from 'modules/Route/AuthRoute';
 import UnAuthRoute from 'modules/Route/UnAuthRoute';
 
@@ -18,6 +18,8 @@ function App() {
             <Route exact path="/" element={<Homepage />} />
             <Route exact path='/upload' element={<Upload/>} />
             <Route exact path='/scoreboard' element={<Scoreboard/>} />
+            <Route exact path='/lobby' element={<Lobby/>} />
+            <Route exact path='/game' element={<Game/>} />
           </Route>
           <Route element={<UnAuthRoute redirect="/" />}>
             <Route exact path='/login' element={<Login/>} />

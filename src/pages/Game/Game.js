@@ -12,9 +12,17 @@ export default function Game() {
 
     const videoRef = useRef();
     const [videoCurrentProgress, setVideoCurrentProgress] = useState(0);
+    const [videoLoopOnce, setVideoLoopOnce] = useState(false);
 
     useEffect(() => {
         videoRef.current.addEventListener("timeupdate", () => setVideoCurrentProgress((videoRef.current.currentTime / videoRef.current.duration) * 100));
+        videoRef.current.addEventListener("ended", () => {
+            if (!videoLoopOnce) {
+                videoRef.current.currentTime = 0;
+                videoRef.current.play();
+                setVideoLoopOnce(true);
+            }
+        })
     }, [])
 
     return (

@@ -18,12 +18,14 @@ export default function Game() {
         videoRef.current.addEventListener("timeupdate", () => setVideoCurrentProgress((videoRef.current.currentTime / videoRef.current.duration) * 100));
         videoRef.current.addEventListener("ended", () => {
             if (!videoLoopOnce) {
+                console.log(videoLoopOnce);
                 videoRef.current.currentTime = 0;
                 videoRef.current.play();
                 setVideoLoopOnce(true);
+                console.log(videoLoopOnce);
             }
         })
-    }, [])
+    }, [videoLoopOnce])
 
     return (
         <div className='game-container'>
@@ -46,7 +48,7 @@ export default function Game() {
                 <NumberRoundSection>
                     <p>7/10</p>
                 </NumberRoundSection>
-                <VideoSection source={'/videos/leagues.mp4'} videoRef ={videoRef} />
+                <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
                 <VotingSection />
                 <ProgressBar value={videoCurrentProgress} />
             </div>

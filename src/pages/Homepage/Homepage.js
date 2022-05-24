@@ -6,7 +6,7 @@ import { useAuthState } from "context/Auth";
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
 import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
 import Button from '@/shared/components/Button/Button';
-import TextField from '@/shared/components/TextField/TextField';
+import InputField from '@/shared/components/InputField/InputField';
 
 export default function Homepage(){
     const auth = useAuthState();
@@ -27,9 +27,9 @@ export default function Homepage(){
                     </div>
                 </div>
                 <form>
-                    <TextField placeholder={auth.user ? auth.user.username : "Pseudo"} readonly />
+                    <InputField placeholder={auth.user ? auth.user.username : "Pseudo"} />
                     <div className='form-row'>
-                        <TextField placeholder="Code de la partie" />
+                        <InputField placeholder="Code de la partie" />
                         <Button>Rejoindre la partie</Button>
                     </div>
                     <Button>Créer une partie</Button>

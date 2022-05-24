@@ -1,0 +1,15 @@
+@import '@/global.scss';
+
+.videosection-container{
+    height: 600px;
+    border: 5px $secondary-color solid;
+    border-radius: 10px;
+    overflow: hidden;
+
+    video {
+        max-height: 105%;
+        max-width: 105%;
+    }
+
+
+}

@@ -1,0 +1,62 @@
+.lobby-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    
+
+    .lobby-left-side{
+        width: 60%;
+
+        h1{
+            margin-bottom: 50px;
+        }
+        .floatingcard{
+            min-width: 50%!important;
+            margin: 0 auto;
+
+            form{
+                width: 80%;
+                display: flex;
+                flex-direction: column;
+                gap:30px;
+            }
+        }
+    }
+
+    .lobby-right-side{
+        width: 40%;
+        height: 100%;
+        
+        .sidepanel-container{
+
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0px 0px 14px 0px rgba(0,0,0,0.55);
+
+            .lobby-player-list{
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                vertical-align: middle;
+                height: 100%;
+                gap: 50px;
+                justify-content: center;
+                overflow-y: scroll;
+                padding: 20% 50px;
+
+                &::-webkit-scrollbar-track{
+                    background-color: transparent;
+                }
+                &::-webkit-scrollbar {
+                    width: 0px  
+                }
+            }
+        }
+    }
+    
+}

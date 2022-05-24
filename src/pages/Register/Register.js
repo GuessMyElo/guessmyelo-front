@@ -69,10 +69,10 @@ export default function Register() {
                     <p key={index}>{error}</p>  
                     ))}
                 </div>
-                <InputField placeholder="Username" innerRef={username} />
-                <InputField placeholder="Email" innerRef={email} />
-                <InputField placeholder="Password" innerRef={password} />
-                <InputField placeholder="Confirm password" innerRef={confirmPassword} />
+                <InputField placeholder="Username" inputRef={username} />
+                <InputField placeholder="Email" inputRef={email} />
+                <InputField placeholder="Password" inputRef={password} />
+                <InputField placeholder="Confirm password" inputRef={confirmPassword} />
                 <Button onClick={handleRegister}>Send</Button>
                 <Link to="/login">
                     <Button reversed>Login</Button>

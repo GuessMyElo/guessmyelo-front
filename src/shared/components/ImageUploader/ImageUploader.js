@@ -1,14 +1,14 @@
 import React from "react";
 import InputField from "../InputField/InputField";
-import "./ImageUpload.scss";
+import "./ImageUploader.scss";
 
-const ImageUpload = ({...rest}) => {
+const ImageUploader = ({...rest}) => {
   return (
     <div className="uploader">
-      <label htmlFor="uploader"><p>Insérez une image</p></label>
+      <label htmlFor="uploader"><p>Importer une image</p></label>
       <InputField className="uploader-input" type="file" id="uploader" accept=".jpg, .jpeg, .png, .gif" {...rest}/>
     </div>
   );
 };
 
-export default ImageUpload;
+export default ImageUploader;

@@ -10,9 +10,10 @@ import Select from "shared/components/Select/Select";
 import { Capitalize, isEmpty, objectIsEmpty } from "Utils";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
-// import { useAuthState } from ...
+import { useAuthState } from "context/Auth";
 
 export default function Upload() {
+  const auth = useAuthState();
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [game, setGame] = useState("");
   const [files, setFiles] = useState([]);
@@ -33,7 +34,6 @@ export default function Upload() {
   ];
   const videosRef = useRef([]);
   const inputRef = useRef();
-  // const auth = useAuthState();
 
   useEffect(() => {
     videosRef.current = videosRef.current.slice(0, videos.length);
@@ -74,7 +74,7 @@ export default function Upload() {
             await axios.post("/video", {
               rank: videos[i].rank,
               url: cloudinaryRes.data["secure_url"],
-              userId: /*auth.user.id ??*/ "777",
+              userId: auth.user.id,
             });
           } catch (error) {
             console.log(error);

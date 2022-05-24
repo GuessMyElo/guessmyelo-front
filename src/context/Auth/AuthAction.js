@@ -12,7 +12,7 @@ export async function login(dispatch, payload) {
         dispatch({ type: 'LOGIN_ERROR', error: res.data.message });
         return;
     } catch(err) {
-        dispatch({ type: 'LOGIN_ERROR', error: err });
+        dispatch({ type: 'LOGIN_ERROR', error: err.message });
     }
 }
 

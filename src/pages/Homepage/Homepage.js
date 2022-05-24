@@ -13,17 +13,17 @@ import ProgressBar from "shared/components/ProgressBar/ProgressBar";
 import Logout from "shared/components/Logout/Logout";
 
 export default function Homepage() {
-  const auth = useAuthState();
+  const { user } = useAuthState();
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
 
   const handleSendImage = (file) => {
     const formData = new FormData();
-    formData.append("id", "2");
+    formData.append("id", user.id);
     formData.append("folder", "profilepics");
     formData.append("file", file);
     axios
-      .post("/image", formData, {
+      .post("/cloudinary/image", formData, {
         onUploadProgress: (ProgressEvent) =>
           setProgress((ProgressEvent.loaded / ProgressEvent.total) * 100),
       })
@@ -39,8 +39,8 @@ export default function Homepage() {
   };
 
   useEffect(() => {
-    setFile(auth.user.imageUrl);
-  }, [auth.user.imageUrl]);
+    setFile(user.imageUrl);
+  }, [user.imageUrl]);
 
   return (
     <div className="homepage-container">
@@ -48,9 +48,14 @@ export default function Homepage() {
       <FloatingCard>
         <h1>Jouer</h1>
         <div className="avatar-container">
-          <Picture src={file || "images/player.jpg"} size="130" />
+          <div className="user-profile">
+            <Picture src={file || "images/player.jpg"} size="130" />
+            <p>{user.username}</p>
+          </div>
           <div className="avatar-select">
-            <ImageUploader onInput={(e) => handleSendImage(e.target.files[0])} />
+            <ImageUploader
+              onInput={(e) => handleSendImage(e.target.files[0])}
+            />
             <div className="default-avatar">
               <Picture src="images/player.jpg" size="50" />
               <Picture src="images/player.jpg" size="50" />
@@ -70,9 +75,14 @@ export default function Homepage() {
           <Link to="/upload">
             <Button reversed>Uploader une video</Button>
           </Link>
+          {user.role === "admin" && (
+            <Link to="/verify">
+              <Button reversed>Vérifier les vidéos</Button>
+            </Link>
+          )}
         </form>
+        {progress > 0 && <ProgressBar value={progress} />}
       </FloatingCard>
-      <ProgressBar value={progress} />
     </div>
   );
 }

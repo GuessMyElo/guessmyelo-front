@@ -20,7 +20,7 @@
     }
 
     .video-input-label {
-        width: 50%;
+        width: 300px;
         padding: 20px 0;
         margin-bottom: 80px;
         text-align: center;
@@ -37,6 +37,7 @@
     }
 
     .video-preview {
+        width: 500px;
         display: flex;
         align-items: center;
         position: relative;

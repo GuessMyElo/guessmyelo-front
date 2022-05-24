@@ -2,6 +2,10 @@ export const Capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
+export const gameList = {
+    lol : "League of Legends"
+}
+
 export const objectIsEmpty = (object) => {
     let keys = [];
     let values = [];

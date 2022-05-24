@@ -7,13 +7,13 @@ import "./Upload.scss";
 import Button from "shared/components/Button/Button";
 import VideoSection from "modules/Gameplay/atoms/VideoSection/VideoSection";
 import Select from "shared/components/Select/Select";
-import { Capitalize, isEmpty, objectIsEmpty } from "Utils";
+import { Capitalize, gameList, isEmpty, objectIsEmpty } from "Utils";
 import { FaTimes } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { useAuthState } from "context/Auth";
 
 export default function Upload() {
-  const auth = useAuthState();
+  const { user } = useAuthState();
   const [uploadPercentage, setUploadPercentage] = useState(0);
   const [game, setGame] = useState("");
   const [files, setFiles] = useState([]);
@@ -40,27 +40,28 @@ export default function Upload() {
   }, [videos]);
 
   const handleSubmit = async () => {
-    if(!isEmpty(game)) {
-      const folder = `videos/${game}`;
-      const signResponse = await axios.post("/signature", {
+    if (!isEmpty(game)) {
+      const folder =
+        user.role === "admin" ? `videos/${game}` : `verify/videos/${game}`;
+      const signResponse = await axios.post("/cloudinary/signature", {
         folder,
       });
       const signData = await signResponse.data;
       const url = `http://api.cloudinary.com/v1_1/${signData.cloudname}/video/upload`;
-  
+
       const formData = new FormData();
-  
-      let filesNotUploaded = {videos : [], files : []};
+
+      let filesNotUploaded = { videos: [], files: [] };
       setIsLoading(true);
       for (let i = 0; i < files.length; i++) {
-        if(!isEmpty(videos[i].rank)) {
+        if (!isEmpty(videos[i].rank)) {
           formData.append("file", files[i]);
           formData.append("api_key", signData.apikey);
           formData.append("timestamp", signData.timestamp);
           formData.append("signature", signData.signature);
           formData.append("eager", "c_pad,h_300,w_400|c_crop,h_200,w_260");
           formData.append("folder", folder);
-    
+
           try {
             const cloudinaryRes = await axios.post(url, formData, {
               withCredentials: false,
@@ -74,7 +75,10 @@ export default function Upload() {
             await axios.post("/video", {
               rank: videos[i].rank,
               url: cloudinaryRes.data["secure_url"],
-              userId: auth.user.id,
+              public_id: cloudinaryRes.data["public_id"],
+              userId: user.id,
+              status: user.role === "admin" ? "verified" : "not verified",
+              game,
             });
           } catch (error) {
             console.log(error);
@@ -86,10 +90,11 @@ export default function Upload() {
         }
       }
 
-      if(!objectIsEmpty(filesNotUploaded)) {
+      if (!objectIsEmpty(filesNotUploaded)) {
         resetFile();
         setIsLoading(false);
         setUploadPercentage(0);
+        setGame("");
         toast.success("Les fichiers ont été importés.");
       } else {
         setFiles(filesNotUploaded.files);
@@ -139,19 +144,23 @@ export default function Upload() {
         <h1>Upload</h1>
         <Select
           placeholder="Jeu"
-          size={"50%"}
-          options={[{ value: "lol", text: "League of Legends" }]}
+          size={"300px"}
+          options={Object.entries(gameList).map(([key, value]) => ({
+            value: key,
+            text: value,
+          }))}
           value={game}
           onChange={(e) => setGame(e.target.value)}
         />
         <InputField
+          size={"300px"}
           id="video-input"
           type="file"
           accept="video/*"
           multiple
           inputRef={inputRef}
           onChange={(e) => handleFileChange(Array.from(e.target.files))}
-          onClick={(e) => e.target.value = null}
+          onClick={(e) => (e.target.value = null)}
         />
         <label htmlFor="video-input" className="video-input-label">
           Choisir un fichier
@@ -162,6 +171,8 @@ export default function Upload() {
             return (
               <div key={index} className="video-preview">
                 <VideoSection
+                  autoPlay
+                  loop
                   source={video.src}
                   videoRef={(e) => (videosRef.current[index] = e)}
                 />
@@ -190,13 +201,13 @@ export default function Upload() {
             );
           })}
         <Button
-          size={"20%"}
+          size={"300px"}
           onClick={handleSubmit}
           disabled={files.length <= 0}
         >
           Envoyer
         </Button>
-        <ProgressBar value={uploadPercentage} />
+        {uploadPercentage > 0 && <ProgressBar value={uploadPercentage} />}
         {isLoading && (
           <p>
             {currentRequestIndex}/{totalRequestIndex}

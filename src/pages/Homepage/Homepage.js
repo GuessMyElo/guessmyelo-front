@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, {  useState } from "react";
-=======
-import React, { useEffect, useState } from "react";
->>>>>>> 2c16183fe97297c8d8b19a211ccc6847a04dfb2b
 import { Link } from "react-router-dom";
 import "./Homepage.scss";
 import FloatingCard from "@/shared/components/FloatingCard/FloatingCard";

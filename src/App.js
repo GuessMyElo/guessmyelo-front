@@ -1,4 +1,5 @@
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
+<<<<<<< HEAD
 import AuthRedirect from './pages/AuthRedirect/AuthRedirect';
 import Homepage from './pages/Homepage/Homepage';
 import Game from './pages/Game/Game';
@@ -9,6 +10,11 @@ import Register from 'pages/Register/Register';
 import Lobby from 'pages/Lobby/Lobby';
 import AuthRoute from 'modules/Route/AuthRoute';
 import UnAuthRoute from 'modules/Route/UnAuthRoute';
+=======
+import Homepage from './pages/Homepage/Homepage';
+import Game from './pages/Game/Game';
+import Upload from './pages/Upload/Upload';
+>>>>>>> 2c16183fe97297c8d8b19a211ccc6847a04dfb2b
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -41,7 +47,11 @@ function App() {
         pauseOnHover
         draggable
       />
+<<<<<<< HEAD
       </BrowserRouter>
+=======
+    </BrowserRouter>
+>>>>>>> 2c16183fe97297c8d8b19a211ccc6847a04dfb2b
   );
 }
 

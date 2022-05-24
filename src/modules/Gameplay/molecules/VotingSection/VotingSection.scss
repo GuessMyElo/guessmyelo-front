@@ -1,0 +1,30 @@
+@import '@/global.scss';
+
+.votingsection-container{
+    width: 90%;
+    margin-bottom: 30px;
+    padding: 5px;
+    white-space: nowrap;
+    text-align: center;
+    overflow-x: auto;
+    
+
+    > * {
+        margin-right: 30px;
+    }
+    > :last-child{
+        margin-right: 0px;
+    }
+
+    &::-webkit-scrollbar-track{
+        background-color: $secondary-color;
+    }
+    &::-webkit-scrollbar {
+        height: 5px ; 
+    }
+    &::-webkit-scrollbar-thumb{
+        background: $purple-color;
+    }
+
+
+}

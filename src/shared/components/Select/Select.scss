@@ -1,0 +1,19 @@
+@import '@/global.scss';
+
+select {
+    border: none;
+    font-weight: bold;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.35s;
+    padding: 10px 20px;
+
+    &:hover {
+        background-color: $purple-hover-color;
+    }
+    
+    &:disabled {
+        pointer-events: none;
+        filter: brightness(0.7);
+    }
+}

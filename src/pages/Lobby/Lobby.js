@@ -3,12 +3,13 @@ import { Link } from "react-router-dom";
 
 import './Lobby.scss';
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
-import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
 import Button from '@/shared/components/Button/Button';
 import SidePanel from 'modules/Gameplay/shared/components/SidePanel/SidePanel';
 import Select from 'shared/components/Select/Select';
 import { Capitalize } from 'Utils';
 import InputField from 'shared/components/InputField/InputField';
+import NamedAvatar from 'modules/Player/Avatar/molecules/NamedAvatar/NamedAvatar';
+import { useAuthState } from "context/Auth";
 
 
 export default function Lobby(){
@@ -18,6 +19,8 @@ export default function Lobby(){
     const [nbrVideo, setNbrVideo] = useState("5");
     const [nbrLoop, setNbrLoop] = useState("2");
     const difficultyOptions = ["facile","moyen","hard","extreme"]
+    
+    const auth = useAuthState();
 
     return (
         <div className='lobby-container'>
@@ -43,17 +46,18 @@ export default function Lobby(){
             <div className='lobby-right-side'>
                 <SidePanel position={"right"}>
                     <div className='lobby-player-list'>
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
-                        <Picture src="images/player.jpg" size="100" />
+                        <NamedAvatar username={auth.user ? auth.user.username : "Pseudo"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={ "Pseudo"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"Pseudo"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"dsjfhdkjfsndsqdhjdgqdqsddfjsdf"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"Pseudo"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"Pseudo"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"lucaslebogossedu59"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"Pseudo"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"aaa"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"jesappellegroot"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"z"} src="images/player.jpg" size={100}/>
+                        <NamedAvatar username={"Pseudo"} src="images/player.jpg" size={100}/>
                     </div>
                 </SidePanel>
             </div>

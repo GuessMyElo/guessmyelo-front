@@ -12,7 +12,6 @@ export default function Game() {
 
     const videoRef = useRef();
     const [videoCurrentProgress, setVideoCurrentProgress] = useState(0);
-<<<<<<< HEAD
     const [videoLoopOnce, setVideoLoopOnce] = useState(false);
 
     useEffect(() => {
@@ -27,12 +26,6 @@ export default function Game() {
             }
         })
     }, [videoLoopOnce])
-=======
-
-    useEffect(() => {
-        videoRef.current.addEventListener("timeupdate", () => setVideoCurrentProgress((videoRef.current.currentTime / videoRef.current.duration) * 100));
-    }, [])
->>>>>>> 2c16183fe97297c8d8b19a211ccc6847a04dfb2b
 
     return (
         <div className='game-container'>
@@ -55,14 +48,8 @@ export default function Game() {
                 <NumberRoundSection>
                     <p>7/10</p>
                 </NumberRoundSection>
-<<<<<<< HEAD
                 <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
                 <VotingSection />
-=======
-                <VideoSection source={'/videos/leagues.mp4'} videoRef ={videoRef} />
-                <VotingSection />
-                {videoCurrentProgress}
->>>>>>> 2c16183fe97297c8d8b19a211ccc6847a04dfb2b
                 <ProgressBar value={videoCurrentProgress} />
             </div>
         </div>

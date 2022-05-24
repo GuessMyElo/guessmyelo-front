@@ -9,6 +9,8 @@ import Register from 'pages/Register/Register';
 import Lobby from 'pages/Lobby/Lobby';
 import AuthRoute from 'modules/Route/AuthRoute';
 import UnAuthRoute from 'modules/Route/UnAuthRoute';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (
@@ -27,6 +29,18 @@ function App() {
             <Route exact path='/auth/:type' element={<AuthRedirect/>} />
           </Route>
         </Routes>
+        <ToastContainer 
+        position='top-center'
+        autoClose={5000}
+        hideProgressBar={false}
+        theme="colored"
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        pauseOnHover
+        draggable
+      />
       </BrowserRouter>
   );
 }

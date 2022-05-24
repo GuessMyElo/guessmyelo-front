@@ -25,9 +25,4 @@ button {
             color: $purple-hover-color;
         }
     }
-    
-    &:disabled {
-        pointer-events: none;
-        filter: brightness(0.7);
-    }
 }

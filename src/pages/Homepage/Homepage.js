@@ -2,15 +2,12 @@ import React from 'react';
 import { Link } from "react-router-dom";
 
 import './Homepage.scss';
-import { useAuthState } from "context/Auth";
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
 import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
 import Button from '@/shared/components/Button/Button';
-import InputField from '@/shared/components/InputField/InputField';
+import TextField from '@/shared/components/TextField/TextField';
 
 export default function Homepage(){
-    const auth = useAuthState();
-
     return (
         <div className='homepage-container'>
             <FloatingCard>
@@ -27,14 +24,12 @@ export default function Homepage(){
                     </div>
                 </div>
                 <form>
-                    <InputField placeholder={auth.user ? auth.user.username : "Pseudo"} />
+                    <TextField placeholder="Pseudo" />
                     <div className='form-row'>
-                        <InputField placeholder="Code de la partie" />
+                        <TextField placeholder="Code de la partie" />
                         <Button>Rejoindre la partie</Button>
                     </div>
-                    <Link to="/lobby">
-                        <Button>Créer une partie</Button>
-                    </Link>
+                    <Button>Créer une partie</Button>
                     <Link to="/upload">
                         <Button reversed>Uploader une video</Button>
                     </Link>

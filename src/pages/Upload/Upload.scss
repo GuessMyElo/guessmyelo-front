@@ -11,29 +11,13 @@
         margin: 20px 0;
     }
 
-    #video-input {
-        display: none;
-    }
-
-    .video-input-label {
-        width: 50%;
+    button {
         padding: 20px 0;
         margin-bottom: 80px;
-        text-align: center;
-        background-color: $purple-color;
-        border: none;
-        font-weight: bold;
-        border-radius: 3px;
-        cursor: pointer;
-        transition: background-color 0.35s;
-        color: rgb(197, 197, 197);
-        &:hover {
-            background-color: $purple-hover-color;
-        }
     }
 
-    .videosection-container {
-        height: fit-content;
+    p {
+        text-decoration: underline;
     }
 
     .progressbar {

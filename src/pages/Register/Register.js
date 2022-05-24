@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import Button from '@/shared/components/Button/Button';
-import TextField from '@/shared/components/TextField/TextField';
+import InputField from '@/shared/components/InputField/InputField';
 import { Link, useNavigate } from 'react-router-dom';
 import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
 import axios from 'axios';
@@ -69,10 +69,10 @@ export default function Register() {
                     <p key={index}>{error}</p>  
                     ))}
                 </div>
-                <TextField placeholder="Username" innerRef={username} />
-                <TextField placeholder="Email" innerRef={email} />
-                <TextField placeholder="Password" innerRef={password} />
-                <TextField placeholder="Confirm password" innerRef={confirmPassword} />
+                <InputField placeholder="Username" innerRef={username} />
+                <InputField placeholder="Email" innerRef={email} />
+                <InputField placeholder="Password" innerRef={password} />
+                <InputField placeholder="Confirm password" innerRef={confirmPassword} />
                 <Button onClick={handleRegister}>Send</Button>
                 <Link to="/login">
                     <Button reversed>Login</Button>

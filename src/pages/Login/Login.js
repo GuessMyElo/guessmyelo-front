@@ -1,6 +1,6 @@
 import { useRef } from 'react';
 import Button from '@/shared/components/Button/Button';
-import TextField from '@/shared/components/TextField/TextField';
+import InputField from '@/shared/components/InputField/InputField';
 import { Link } from 'react-router-dom';
 import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
 import './Login.scss';
@@ -39,8 +39,8 @@ export default function Login() {
             <FloatingCard>
                 <h1>Login</h1>
                 { errorMessage && <p>{errorMessage}</p> }
-                <TextField placeholder="Email or Username" innerRef={identifier} />
-                <TextField placeholder="Password" innerRef={password} />
+                <InputField placeholder="Email or Username" innerRef={identifier} />
+                <InputField placeholder="Password" innerRef={password} />
                 <Button onClick={handleLogin} disabled={loading}>Confirm</Button>
                 <Link to="/register">
                     <Button reversed>Register</Button>

@@ -3,6 +3,7 @@
 .videosection-container{
     height: 100%;
     width: 100%;
+    overflow: hidden;
     video {
         max-height: 105%;
         max-width: 105%;

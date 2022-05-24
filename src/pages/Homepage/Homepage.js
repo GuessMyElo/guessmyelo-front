@@ -1,4 +1,4 @@
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./Homepage.scss";
 import FloatingCard from "@/shared/components/FloatingCard/FloatingCard";
@@ -8,12 +8,7 @@ import InputField from "@/shared/components/InputField/InputField";
 import ImageUpload from "shared/components/ImageUpload/ImageUpload";
 import axios from "axiosConfig";
 import { toast } from "react-toastify";
-import "./Homepage.scss";
 import { useAuthState } from "context/Auth";
-import FloatingCard from "@/shared/components/FloatingCard/FloatingCard";
-import Picture from "@/modules/Player/Avatar/atoms/Picture/Picture";
-import Button from "@/shared/components/Button/Button";
-import InputField from "@/shared/components/InputField/InputField";
 
 export default function Homepage() {
   const auth = useAuthState();
@@ -24,14 +19,13 @@ export default function Homepage() {
     formData.append("id", "2");
     formData.append("folder", "profilepics");
     formData.append("file", file);
-    axios.post("/image", formData)
-    .then((res) => {
-        if(res.data.error) {
-            toast.error(res.data.message);
-        } else {
-            toast.success(res.data.message);
-        }
-    })
+    axios.post("/image", formData).then((res) => {
+      if (res.data.error) {
+        toast.error(res.data.message);
+      } else {
+        toast.success(res.data.message);
+      }
+    });
   };
 
   return (

@@ -40,9 +40,9 @@ export default function Lobby(){
                 <FloatingCard>
                     <h1>Paramètre</h1>
                     <form>
-                        <label for="participant">Nombre de participants (3-20):</label>
+                        <label htmlFor="participant">Nombre de participants (3-20):</label>
                         <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomSize} onChange={(e) => setRoomSize(e.target.value)}/>
-                        <label for="nbrVideo">Nombre de participants (3-10):</label>
+                        <label htmlFor="nbrVideo">Nombre de participants (3-10):</label>
                         <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={nbrVideo} onChange={(e) => setNbrVideo(e.target.value)}/>
                         <label htmlFor="difficulty">Difficulté :</label>
                         <Select id="difficulty" options={difficultyOptions.map((value) => ({text : Capitalize(value), value }))} value={difficulty} onChange={(e) => setDifficulty(e.target.value)} backgroundcolor={"#fff"} textcolor={"#000"} />
@@ -58,8 +58,9 @@ export default function Lobby(){
             <div className='lobby-right-side'>
                 <SidePanel position={"right"}>
                     <div className='lobby-player-list'>
-                        <NamedAvatar username={auth.user ? auth.user.username : "Pseudo"} src="images/player.jpg" size={100}/>
-                        <NamedAvatar username={ "Pseudo"} src="images/player.jpg" size={100}/>  
+                        {participants.map(p => (
+                            <NamedAvatar username={p.username} src="images/player.jpg" size={100} key={p.id}/>
+                        ))}
                     </div>
                 </SidePanel>
             </div>

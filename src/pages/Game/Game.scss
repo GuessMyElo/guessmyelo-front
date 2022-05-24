@@ -5,14 +5,15 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    width: 100vw;
-    
+    width: 100%;
+
     .game-left-section{
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
         overflow: hidden;
+        position: fixed;
     }
     .game-right-section{
         display: flex;
@@ -20,7 +21,9 @@
         justify-content: space-between;
         align-items: center;
         width: calc(100% - 160px);
-        height: 100vh;
+        margin-left: 160px;
+        gap: 20px;
+        min-height: 100vh;
 
 
         .main-section{

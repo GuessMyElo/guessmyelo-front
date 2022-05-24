@@ -35,7 +35,7 @@ export default function Homepage(){
                     </div>
                 </div>
                 <form>
-                    <InputField placeholder={auth.user ? auth.user.username : "Pseudo"} />
+                    <InputField placeholder={auth.user ? auth.user.username : "Pseudo"} readonly />
                     <div className='form-row'>
                         <InputField placeholder="Code de la partie" />
                         <Button>Rejoindre la partie</Button>

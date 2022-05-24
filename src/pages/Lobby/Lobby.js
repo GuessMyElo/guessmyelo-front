@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from "react-router-dom";
 
 import './Lobby.scss';
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
@@ -10,17 +10,29 @@ import { Capitalize } from 'Utils';
 import InputField from 'shared/components/InputField/InputField';
 import NamedAvatar from 'modules/Player/Avatar/molecules/NamedAvatar/NamedAvatar';
 import { useAuthState } from "context/Auth";
+import axios from 'axios';
 
 
 export default function Lobby(){
 
     const [difficulty, setDifficulty] = useState("");
-    const [participant, setParticipant] = useState("3");
+    const [roomSize, setRoomSize] = useState("3");
     const [nbrVideo, setNbrVideo] = useState("5");
     const [nbrLoop, setNbrLoop] = useState("2");
+    const [roomInfo, setRoomInfo] = useState({});
+    const [participants, setParticipants] = useState([]);
     const difficultyOptions = ["facile","moyen","hard","extreme"]
     
     const auth = useAuthState();
+    const params = useParams();
+
+    useEffect(() => {
+        axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
+            .then((res) => {
+                setParticipants(res.data.users);
+                setRoomInfo(res.data.room_info)
+            })
+    }, [])
 
     return (
         <div className='lobby-container'>
@@ -28,9 +40,9 @@ export default function Lobby(){
                 <FloatingCard>
                     <h1>Paramètre</h1>
                     <form>
-                        <label htmlFor="participant">Nombre de participants (3-20):</label>
-                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={participant} onChange={(e) => setParticipant(e.target.value)}/>
-                        <label htmlFor="nbrVideo">Nombre de participants (3-10):</label>
+                        <label for="participant">Nombre de participants (3-20):</label>
+                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomSize} onChange={(e) => setRoomSize(e.target.value)}/>
+                        <label for="nbrVideo">Nombre de participants (3-10):</label>
                         <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={nbrVideo} onChange={(e) => setNbrVideo(e.target.value)}/>
                         <label htmlFor="difficulty">Difficulté :</label>
                         <Select id="difficulty" options={difficultyOptions.map((value) => ({text : Capitalize(value), value }))} value={difficulty} onChange={(e) => setDifficulty(e.target.value)} backgroundcolor={"#fff"} textcolor={"#000"} />

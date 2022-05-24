@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import './Homepage.scss';
 import { useAuthState } from "context/Auth";
@@ -7,9 +7,17 @@ import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
 import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
 import Button from '@/shared/components/Button/Button';
 import InputField from '@/shared/components/InputField/InputField';
+import axios from 'axios';
 
 export default function Homepage(){
     const auth = useAuthState();
+    const navigate =  useNavigate();
+
+    const createRoom = (e) => {
+        e.preventDefault();
+        axios.post(process.env.REACT_APP_API_URL+'/rooms/create', {user_id: auth.user.id})
+            .then((res) => navigate(`lobby/${res.data.room_id}`));
+    }
 
     return (
         <div className='homepage-container'>
@@ -32,9 +40,7 @@ export default function Homepage(){
                         <InputField placeholder="Code de la partie" />
                         <Button>Rejoindre la partie</Button>
                     </div>
-                    <Link to="/lobby">
-                        <Button>Créer une partie</Button>
-                    </Link>
+                    <Button onClick={createRoom}>Créer une partie</Button>
                     <Link to="/upload">
                         <Button reversed>Uploader une video</Button>
                     </Link>

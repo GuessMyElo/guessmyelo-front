@@ -22,6 +22,10 @@
                 display: flex;
                 flex-direction: column;
                 gap:30px;
+
+                input:disabled{
+                    background-color: #82838C !important;
+                }
             }
         }
     }

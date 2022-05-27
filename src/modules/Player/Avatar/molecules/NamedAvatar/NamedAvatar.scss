@@ -6,11 +6,14 @@
     gap: 10px;
    
     p{
-        display: block;
+        display: flex;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         width: 100%;
-        text-align: center;
+        justify-content: center;
+        gap: 5px;
     }
+
+    
 }

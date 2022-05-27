@@ -56,15 +56,15 @@ export default function Game() {
             <div className='game-left-section'>
                 <SidePanel position={"left"}>
                     <div className='game-player-list'>
-                        <GameAvatar src="images/player.jpg" size="80" status={"done"} />
-                        <GameAvatar src="images/player.jpg" size="80" status={"waiting"} />
-                        <GameAvatar src="images/player.jpg" size="80" status={""} />
-                        <GameAvatar src="images/player.jpg" size="80" status={"waiting"} />
-                        <GameAvatar src="images/player.jpg" size="80" status={undefined} />
-                        <GameAvatar src="images/player.jpg" size="80" status={"waiting"} />
-                        <GameAvatar src="images/player.jpg" size="80" status={undefined} />
-                        <GameAvatar src="images/player.jpg" size="80" status={"waiting"} />
-                        <GameAvatar src="images/player.jpg" size="80" status={"done"} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={"done"} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={"waiting"} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={""} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={"waiting"} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={undefined} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={"waiting"} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={undefined} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={"waiting"} />
+                        <GameAvatar src="/images/player.jpg" size="80" status={"done"} />
                     </div>
                 </SidePanel>
             </div>

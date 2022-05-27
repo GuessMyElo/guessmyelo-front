@@ -16,7 +16,11 @@ export default function Homepage(){
     const createRoom = (e) => {
         e.preventDefault();
         axios.post(process.env.REACT_APP_API_URL+'/rooms/create', {user_id: auth.user.id})
-            .then((res) => navigate(`lobby/${res.data.room_id}`));
+            .then((res) => {
+                console.log(res)
+                navigate(`lobby/${res.data.room_id}`)
+            })
+            .catch((err) => console.log(err))
     }
 
     return (

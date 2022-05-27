@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 import './Lobby.scss';
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
@@ -16,24 +16,51 @@ import {io} from 'socket.io-client';
 
 export default function Lobby(){
 
-    const [difficulty, setDifficulty] = useState("");
-    const [roomSize, setRoomSize] = useState("3");
-    const [nbrVideo, setNbrVideo] = useState("5");
-    const [nbrLoop, setNbrLoop] = useState("2");
-    const [roomInfo, setRoomInfo] = useState({});
+    const [roomInfo, setRoomInfo] = useState({
+        room_size: 3,
+        nb_video : 5,
+        nb_loop: 2,
+        difficulty:'facile'
+    });
     const [participants, setParticipants] = useState([]);
     const difficultyOptions = ["facile","moyen","hard","extreme"]
+
+    const [isRoomOwner, setIsRoomOwner] = useState(false);
+
+    const [roomOwner, setRoomOwner] = useState(-1);
     
     const auth = useAuthState();
     const params = useParams();
     const socket = useRef();
-    const location = useLocation();
+    const navigate =  useNavigate();
+    
+
+    const startGame = (e) => {
+        e.preventDefault();
+        socket.current.emit('start-game', params.id);
+    }
+
+
+    useEffect(()=>{
+        if (socket.current && isRoomOwner ) {
+            socket.current.emit('edit-config', {room_id: params.id, room_info: roomInfo});
+        }
+    },[roomInfo])
+
+    useEffect(() => {
+        if (socket.current && !isRoomOwner) {
+            socket.current.on('update-config',(msgRoomInfo) =>{
+                    setRoomInfo(msgRoomInfo)
+            })
+        }
+    }, [isRoomOwner, socket.current])
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
             .then((res) => {
                 setParticipants(res.data.users);
-                setRoomInfo(res.data.room_info)
+                setIsRoomOwner(res.data.room_info.room_owner===auth.user.id)
+                setRoomOwner(res.data.room_info.room_owner)
 
                 socket.current = io(process.env.REACT_APP_API_URL);
                 socket.current.on('connect', () => {
@@ -42,8 +69,16 @@ export default function Lobby(){
                 socket.current.emit('join-room', {room_id: params.id, user: auth.user});
 
                 socket.current.on('update-users', (msg) => {
-                    setParticipants(msg)
+                    setParticipants(msg.users)
+                    setRoomInfo(msg.roomInfo)
                 })
+
+                socket.current.on('game-started',() =>{
+                    navigate(`/game/${params.id}`)
+                })
+
+            }).catch((e)=>{
+                navigate('/');
             })
         return () => {
             socket.current.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
@@ -54,20 +89,18 @@ export default function Lobby(){
         <div className='lobby-container'>
             <div className='lobby-left-side'>
                 <FloatingCard>
-                    <h1>Paramètre</h1>
+                    <h1>Paramètres</h1>
                     <form>
                         <label htmlFor="participant">Nombre de participants (3-20):</label>
-                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomSize} onChange={(e) => setRoomSize(e.target.value)}/>
-                        <label htmlFor="nbrVideo">Nombre de participants (3-10):</label>
-                        <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={nbrVideo} onChange={(e) => setNbrVideo(e.target.value)}/>
+                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomInfo.room_size} onChange={(e) => setRoomInfo((old) => {return {...old, room_size: e.target.value}})} disabled={!isRoomOwner}/>
+                        <label htmlFor="nbrVideo">Nombre de vidéo (3-10):</label>
+                        <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_video} onChange={(e) => setRoomInfo((old) => {return {...old, nb_video: e.target.value}})} disabled={!isRoomOwner}/>
                         <label htmlFor="difficulty">Difficulté :</label>
-                        <Select id="difficulty" options={difficultyOptions.map((value) => ({text : Capitalize(value), value }))} value={difficulty} onChange={(e) => setDifficulty(e.target.value)} backgroundcolor={"#fff"} textcolor={"#000"} />
+                        <Select id="difficulty" options={difficultyOptions.map((value) => ({text : Capitalize(value), value }))} value={roomInfo.difficulty} backgroundcolor={"#fff"} textcolor={"#000"} onChange={(e) => setRoomInfo((old) => {return {...old, difficulty: e.target.value}})} disabled={!isRoomOwner}/>
                         <label htmlFor="nbrLoop">Nombre de passage de la vidéo (1-5):</label>
-                        <InputField type={"number"} placeholder="Nombre de passage de la vidéo " id="nbrLoop" min="1" max="5" backgroundcolor="#fff" textcolor="#000" value={nbrLoop} onChange={(e) => setNbrLoop(e.target.value)}/>
+                        <InputField type={"number"} placeholder="Nombre de passage de la vidéo " id="nbrLoop" min="1" max="5" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_loop} onChange={(e) => setRoomInfo((old) => {return {...old, nb_loop: e.target.value}})} disabled={!isRoomOwner}/>
 
-                        <Link to="/game">
-                            <Button>Lancer le jeu</Button>
-                        </Link>
+                            <Button onClick={startGame}>Lancer le jeu</Button>
                     </form>
                 </FloatingCard>
             </div>
@@ -75,7 +108,7 @@ export default function Lobby(){
                 <SidePanel position={"right"}>
                     <div className='lobby-player-list'>
                         {participants.map(p => (
-                            <NamedAvatar username={p.username} src="images/player.jpg" size={100} key={p.id}/>
+                            <NamedAvatar username={p.username} src="images/player.jpg" size={100} key={p.id} owner={p.id===roomOwner}/>
                         ))}
                     </div>
                 </SidePanel>

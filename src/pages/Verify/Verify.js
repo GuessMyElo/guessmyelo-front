@@ -2,7 +2,6 @@ import axios from "axiosConfig";
 import { useAuthState } from "context/Auth";
 import VideoSection from "modules/Gameplay/atoms/VideoSection/VideoSection";
 import React, { useEffect, useRef, useState } from "react";
-import { Navigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Button from "shared/components/Button/Button";
 import FloatingCard from "shared/components/FloatingCard/FloatingCard";
@@ -23,7 +22,7 @@ const Verify = () => {
         setVideos(res.data);
       });
     }
-  }, []);
+  }, [user.role]);
 
   const handleAccept = async (video) => {
     const cloudinaryRes = await axios.put("/cloudinary/validate", video, {

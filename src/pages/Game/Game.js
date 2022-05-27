@@ -12,20 +12,44 @@ export default function Game() {
 
     const videoRef = useRef();
     const [videoCurrentProgress, setVideoCurrentProgress] = useState(0);
-    const [videoLoopOnce, setVideoLoopOnce] = useState(false);
+    const [videoLoop, setVideoLoop] = useState(2);
+    const [textVideo, setTextVideo] = useState('Votez !');
+    const [textVideoBool, setTextVideoBool] = useState(false);
+    const interval = useRef();
 
     useEffect(() => {
         videoRef.current.addEventListener("timeupdate", () => setVideoCurrentProgress((videoRef.current.currentTime / videoRef.current.duration) * 100));
         videoRef.current.addEventListener("ended", () => {
-            if (!videoLoopOnce) {
-                console.log(videoLoopOnce);
+            if (videoLoop>1) {
+                console.log(videoLoop);
                 videoRef.current.currentTime = 0;
                 videoRef.current.play();
-                setVideoLoopOnce(true);
-                console.log(videoLoopOnce);
+                setVideoLoop((old)=>old-1);
+            }
+            else{
+                videoRef.current.pause(); 
+                setTextVideoBool(true);
+                setTimeout(() => {
+                    setTextVideo(3);
+                    interval.current= setInterval(() => {
+                        setTextVideo((old)=>old-1)
+                        
+                    }, 1000);
+                }, 5000);
+
+                
             }
         })
-    }, [videoLoopOnce])
+    }, [videoLoop])
+
+    useEffect(() => {
+        return ()=> {
+            if (textVideo<=1) {
+                    return clearInterval(interval.current);
+            }
+        }
+    }, [textVideo])
+
 
     return (
         <div className='game-container'>
@@ -46,9 +70,14 @@ export default function Game() {
             </div>
             <div className='game-right-section'>
                 <NumberRoundSection>
-                    <p>7/10</p>
+                    <p>7/10 ({videoLoop})</p>
                 </NumberRoundSection>
-                <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
+                <div className='main-section'>
+                    {textVideoBool && (
+                    <div><p>{textVideo}</p></div>
+                    )}
+                    <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
+                </div>
                 <VotingSection />
                 <ProgressBar value={videoCurrentProgress} />
             </div>

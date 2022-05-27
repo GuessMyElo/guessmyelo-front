@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import Button from '@/shared/components/Button/Button';
 import InputField from '@/shared/components/InputField/InputField';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
 import axios from 'axios';
 import { useAuthDispatch } from 'context/Auth';
@@ -15,7 +15,6 @@ export default function Register() {
     const confirmPassword = useRef();
     const dispatch = useAuthDispatch()
 
-    const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
 
     const handleRegister = async (e) => {
@@ -70,9 +69,9 @@ export default function Register() {
                     ))}
                 </div>
                 <InputField placeholder="Username" inputRef={username} />
-                <InputField placeholder="Email" inputRef={email} />
-                <InputField placeholder="Password" inputRef={password} />
-                <InputField placeholder="Confirm password" inputRef={confirmPassword} />
+                <InputField type="email" placeholder="Email" inputRef={email} />
+                <InputField type="password" placeholder="Password" inputRef={password} />
+                <InputField type="password" placeholder="Confirm password" inputRef={confirmPassword} />
                 <Button onClick={handleRegister}>Send</Button>
                 <Link to="/login">
                     <Button reversed>Login</Button>

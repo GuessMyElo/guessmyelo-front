@@ -10,7 +10,7 @@ import axios from "axiosConfig";
 import { toast } from "react-toastify";
 import { useAuthState } from "context/Auth";
 import ProgressBar from "shared/components/ProgressBar/ProgressBar";
-import Logout from "shared/components/Logout/Logout";
+import Logout from "@/shared/components/Logout/Logout";
 
 export default function Homepage() {
   const { user } = useAuthState();

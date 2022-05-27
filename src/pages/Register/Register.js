@@ -3,7 +3,7 @@ import Button from '@/shared/components/Button/Button';
 import InputField from '@/shared/components/InputField/InputField';
 import { Link } from 'react-router-dom';
 import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
-import axios from 'axios';
+import axios from 'axiosConfig';
 import { useAuthDispatch } from 'context/Auth';
 import './Register.scss';
 import { useState } from 'react';
@@ -48,9 +48,8 @@ export default function Register() {
 
         if (!errors.length > 0) {
             try {
-                const res = await axios.post(`${process.env.REACT_APP_API_URL}/users/add`, payload);
+                const res = await axios.post("/register", payload);
                 if (!res.error) {
-                    console.log(res);
                     dispatch({type: "LOGIN_SUCCESS", payload: res.data})
                 }
             } catch(err) {

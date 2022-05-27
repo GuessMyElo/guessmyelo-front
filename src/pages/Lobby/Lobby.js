@@ -10,8 +10,8 @@ import { Capitalize } from 'Utils';
 import InputField from 'shared/components/InputField/InputField';
 import NamedAvatar from 'modules/Player/Avatar/molecules/NamedAvatar/NamedAvatar';
 import { useAuthState } from "context/Auth";
-import axios from 'axios';
-import {io} from 'socket.io-client';
+import axios from 'axiosConfig';
+import { useSocket } from 'context/Socket/socket';
 
 
 export default function Lobby(){
@@ -24,33 +24,34 @@ export default function Lobby(){
     });
     const [participants, setParticipants] = useState([]);
     const difficultyOptions = ["facile","moyen","hard","extreme"]
-
     const [isRoomOwner, setIsRoomOwner] = useState(false);
-
     const [roomOwner, setRoomOwner] = useState(-1);
-    
     const auth = useAuthState();
     const params = useParams();
-    const socket = useRef();
     const navigate =  useNavigate();
+    const socket = useSocket();
     
 
     const startGame = (e) => {
         e.preventDefault();
-        socket.current.emit('start-game', params.id);
+        axios.post(process.env.REACT_APP_API_URL+'/rooms/update', {room_id: params.id, config: roomInfo, participants})
+            .then(() => {
+                socket.emit('start-game', {room_id: params.id, room_info: roomInfo});
+            })
+            .catch(err => console.error(err))
     }
 
 
     useEffect(()=>{
-        if (socket.current && isRoomOwner ) {
-            socket.current.emit('edit-config', {room_id: params.id, room_info: roomInfo});
+        if (socket && isRoomOwner ) {
+            socket.emit('edit-config', {room_id: params.id, room_info: roomInfo});
         }
     },[roomInfo])
 
     useEffect(() => {
-        if (socket.current && !isRoomOwner) {
-            socket.current.on('update-config',(msgRoomInfo) =>{
-                    setRoomInfo(msgRoomInfo)
+        if (socket && !isRoomOwner) {
+            socket.on('update-config',(msgRoomInfo) =>{
+                //setRoomInfo(msgRoomInfo)
             })
         }
     }, [isRoomOwner, socket.current])
@@ -62,18 +63,14 @@ export default function Lobby(){
                 setIsRoomOwner(res.data.room_info.room_owner===auth.user.id)
                 setRoomOwner(res.data.room_info.room_owner)
 
-                socket.current = io(process.env.REACT_APP_API_URL);
-                socket.current.on('connect', () => {
-                    console.log(`connected`)
-                })
-                socket.current.emit('join-room', {room_id: params.id, user: auth.user});
+                socket.emit('join-room', {room_id: params.id, user: auth.user});
 
-                socket.current.on('update-users', (msg) => {
+                socket.on('update-users', (msg) => {
                     setParticipants(msg.users)
-                    setRoomInfo(msg.roomInfo)
+                    //setRoomInfo(msg.roomInfo)
                 })
 
-                socket.current.on('game-started',() =>{
+                socket.on('game-started',() =>{
                     navigate(`/game/${params.id}`)
                 })
 
@@ -81,7 +78,10 @@ export default function Lobby(){
                 navigate('/');
             })
         return () => {
-            socket.current.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
+            socket.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
+            socket.off('update-users');
+            socket.off('game-started');
+            socket.on('connect');
         }
     }, [])
 

@@ -5,11 +5,14 @@ import './index.scss';
 import App from './App';
 import { AuthProvider } from "./context/Auth";
 import reportWebVitals from './reportWebVitals';
+import {SocketContext, socket} from 'context/Socket/socket';
 
 ReactDOM.render(
   <React.StrictMode>
     <AuthProvider>
-      <App />
+      <SocketContext.Provider value={socket}>
+        <App />
+      </SocketContext.Provider>
     </AuthProvider>
   </React.StrictMode>,
   document.getElementById('root')

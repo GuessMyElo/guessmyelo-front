@@ -56,4 +56,36 @@
         }
     }
 
+    .turn{display: none;}
+
+}
+
+@media (max-width: 800px) and (orientation: portrait) {
+    *{
+        display: none;
+    }
+    .game-container{
+        display: block;
+        .turn{
+            position: absolute;
+            top: 50px;
+            bottom: 50px;
+            display: block;
+            color: red;
+            font-size: 3em;
+            width: 100px;
+            height: 100px;
+            z-index: 999;
+            background-color: blue;
+        }
+    }
+}
+
+
+@media (max-width: 1000px) and (orientation: landscape) {
+    .votingsection-container{
+        overflow-x: visible !important;
+        overflow-y: hidden !important;
+        height: 200px;
+    }
 }

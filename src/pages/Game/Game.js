@@ -53,6 +53,9 @@ export default function Game() {
 
     return (
         <div className='game-container'>
+            <div className='turn'>
+                Please turn your screen to continue
+            </div>
             <div className='game-left-section'>
                 <SidePanel position={"left"}>
                     <div className='game-player-list'>

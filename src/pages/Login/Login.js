@@ -30,7 +30,7 @@ export default function Login() {
     }
 
     const startAuthProcess = (type) => {
-        const service = new (new AuthFactory().createByType(type))(type)
+        const service = new AuthFactory().createByType(type);
         service.redirect();
     }
 
@@ -39,8 +39,8 @@ export default function Login() {
             <FloatingCard>
                 <h1>Login</h1>
                 { errorMessage && <p>{errorMessage}</p> }
-                <InputField placeholder="Email or Username" innerRef={identifier} />
-                <InputField placeholder="Password" innerRef={password} />
+                <InputField placeholder="Email or Username" inputRef={identifier} />
+                <InputField placeholder="Password" inputRef={password} />
                 <Button onClick={handleLogin} disabled={loading}>Confirm</Button>
                 <Link to="/register">
                     <Button reversed>Register</Button>

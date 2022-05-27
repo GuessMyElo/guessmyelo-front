@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from 'react';
+import { Link, useLocation, useParams } from "react-router-dom";
 
 import './Lobby.scss';
 import FloatingCard from '@/shared/components/FloatingCard/FloatingCard';
@@ -11,6 +11,7 @@ import InputField from 'shared/components/InputField/InputField';
 import NamedAvatar from 'modules/Player/Avatar/molecules/NamedAvatar/NamedAvatar';
 import { useAuthState } from "context/Auth";
 import axios from 'axios';
+import {io} from 'socket.io-client';
 
 
 export default function Lobby(){
@@ -25,13 +26,28 @@ export default function Lobby(){
     
     const auth = useAuthState();
     const params = useParams();
+    const socket = useRef();
+    const location = useLocation();
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
             .then((res) => {
                 setParticipants(res.data.users);
                 setRoomInfo(res.data.room_info)
+
+                socket.current = io(process.env.REACT_APP_API_URL);
+                socket.current.on('connect', () => {
+                    console.log(`connected`)
+                })
+                socket.current.emit('join-room', {room_id: params.id, user: auth.user});
+
+                socket.current.on('update-users', (msg) => {
+                    setParticipants(msg)
+                })
             })
+        return () => {
+            socket.current.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
+        }
     }, [])
 
     return (

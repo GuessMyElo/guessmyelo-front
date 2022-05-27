@@ -7,16 +7,22 @@ export default class Auth {
         this.type = type;
     }
 
-    redirect() {}
+    redirect() {
+        throw new Error('This method should be implemented')
+    }
 
     async connect(path) {
         this.access_token = await this.getAccessToken(path);
         this.user = await this.getUserData();
     }
 
-    async getAccessToken(path) {}
+    async getAccessToken(path) {
+        throw new Error('This method should be implemented')
+    }
     
-    async getUserData() {}
+    async getUserData() {
+        throw new Error('This method should be implemented')
+    }
     
     async addUserToDatabase() {
         try {

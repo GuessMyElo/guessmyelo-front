@@ -44,7 +44,6 @@ export default function Homepage() {
         <div className="avatar-container">
           <div className="user-profile">
             <Picture src={file || "images/player.jpg"} size="130" />
-            <p>{user.username}</p>
           </div>
           <div className="avatar-select">
             <ImageUploader
@@ -58,7 +57,7 @@ export default function Homepage() {
           </div>
         </div>
         <form>
-          <InputField placeholder="Pseudo" />
+          <InputField placeholder="Pseudo" value={user.username} disabled />
           <div className="form-row">
             <InputField placeholder="Code de la partie" />
             <Button>Rejoindre la partie</Button>

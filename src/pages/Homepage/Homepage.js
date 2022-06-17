@@ -7,7 +7,6 @@ import Button from "@/shared/components/Button/Button";
 import InputField from "@/shared/components/InputField/InputField";
 import ImageUploader from "shared/components/ImageUploader/ImageUploader";
 import axios from "axiosConfig";
-import { toast } from "react-toastify";
 import { useAuthState } from "context/Auth";
 import ProgressBar from "shared/components/ProgressBar/ProgressBar";
 import Logout from "@/shared/components/Logout/Logout";
@@ -28,12 +27,7 @@ export default function Homepage() {
           setProgress((ProgressEvent.loaded / ProgressEvent.total) * 100),
       })
       .then((res) => {
-        if (res.data.error) {
-          toast.error(res.data.message);
-        } else {
-          toast.success(res.data.message);
-          setFile(res.data.url);
-        }
+        setFile(res.data.url);
         setProgress(0);
       });
   };

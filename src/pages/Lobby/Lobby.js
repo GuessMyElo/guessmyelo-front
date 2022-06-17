@@ -13,9 +13,7 @@ import { useAuthState } from "context/Auth";
 import axios from 'axiosConfig';
 import { useSocket } from 'context/Socket/socket';
 
-
 export default function Lobby(){
-
     const [roomInfo, setRoomInfo] = useState({
         room_size: 3,
         nb_video : 5,
@@ -41,20 +39,10 @@ export default function Lobby(){
             .catch(err => console.error(err))
     }
 
-
-    useEffect(()=>{
-        if (socket && isRoomOwner ) {
-            socket.emit('edit-config', {room_id: params.id, room_info: roomInfo});
-        }
-    },[roomInfo])
-
-    useEffect(() => {
-        if (socket && !isRoomOwner) {
-            socket.on('update-config',(msgRoomInfo) =>{
-                //setRoomInfo(msgRoomInfo)
-            })
-        }
-    }, [isRoomOwner, socket.current])
+    const updateConfig = (conf) => {
+        setRoomInfo((old) => {return {...old, ...conf}});
+        socket.emit('edit-config', {room_id: params.id, room_info: conf});
+    }
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
@@ -67,8 +55,14 @@ export default function Lobby(){
 
                 socket.on('update-users', (msg) => {
                     setParticipants(msg.users)
-                    //setRoomInfo(msg.roomInfo)
+                    setRoomInfo(msg.roomInfo)
                 })
+
+                if (!isRoomOwner) {
+                    socket.on('update-config',(msgRoomInfo) =>{
+                        setRoomInfo(msgRoomInfo)
+                    })
+                }
 
                 socket.on('game-started',() =>{
                     navigate(`/game/${params.id}`)
@@ -77,11 +71,12 @@ export default function Lobby(){
             }).catch((e)=>{
                 navigate('/');
             })
+
         return () => {
             socket.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
             socket.off('update-users');
             socket.off('game-started');
-            socket.on('connect');
+            socket.off('update-config');
         }
     }, [])
 
@@ -92,15 +87,15 @@ export default function Lobby(){
                     <h1>Paramètres</h1>
                     <form>
                         <label htmlFor="participant">Nombre de participants (3-20):</label>
-                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomInfo.room_size} onChange={(e) => setRoomInfo((old) => {return {...old, room_size: e.target.value}})} disabled={!isRoomOwner}/>
+                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomInfo.room_size} onChange={(e) => updateConfig({room_size: e.target.value})} disabled={!isRoomOwner}/>
                         <label htmlFor="nbrVideo">Nombre de vidéo (3-10):</label>
-                        <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_video} onChange={(e) => setRoomInfo((old) => {return {...old, nb_video: e.target.value}})} disabled={!isRoomOwner}/>
+                        <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_video} onChange={(e) => updateConfig({nb_video: e.target.value})} disabled={!isRoomOwner}/>
                         <label htmlFor="difficulty">Difficulté :</label>
-                        <Select id="difficulty" options={difficultyOptions.map((value) => ({text : Capitalize(value), value }))} value={roomInfo.difficulty} backgroundcolor={"#fff"} textcolor={"#000"} onChange={(e) => setRoomInfo((old) => {return {...old, difficulty: e.target.value}})} disabled={!isRoomOwner}/>
+                        <Select id="difficulty" options={difficultyOptions.map((value) => ({text : Capitalize(value), value }))} value={roomInfo.difficulty} backgroundcolor={"#fff"} textcolor={"#000"} onChange={(e) => updateConfig({difficulty: e.target.value})} disabled={!isRoomOwner}/>
                         <label htmlFor="nbrLoop">Nombre de passage de la vidéo (1-5):</label>
-                        <InputField type={"number"} placeholder="Nombre de passage de la vidéo " id="nbrLoop" min="1" max="5" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_loop} onChange={(e) => setRoomInfo((old) => {return {...old, nb_loop: e.target.value}})} disabled={!isRoomOwner}/>
+                        <InputField type={"number"} placeholder="Nombre de passage de la vidéo " id="nbrLoop" min="1" max="5" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_loop} onChange={(e) => updateConfig({nb_loop: e.target.value})} disabled={!isRoomOwner}/>
 
-                            <Button onClick={startGame}>Lancer le jeu</Button>
+                        <Button onClick={startGame} disabled={!isRoomOwner}>Lancer le jeu</Button>
                     </form>
                 </FloatingCard>
             </div>

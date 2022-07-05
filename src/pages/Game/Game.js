@@ -70,6 +70,12 @@ export default function Game() {
                 videoRef.current.play();
                 setVideoLoop(videoLoop + 1);
             })
+
+            socket.on('answer-saved', (data) => {
+                setParticipants(data);
+                console.log("answer-saved", data)
+                
+            })
         
             return () => {
                 socket.off('game-data');
@@ -129,7 +135,7 @@ export default function Game() {
                 <SidePanel position={"left"}>
                     <div className='game-player-list'>
                         {participants.map((u) => (
-                            <GameAvatar src="/images/player.jpg" size="80" status={"waiting"} key={u.id} />
+                            <GameAvatar src="/images/player.jpg" size="80" status={ u.answered ? "done":"waiting"} key={u.id} />
                         ))}
                     </div>
                 </SidePanel>

@@ -18,6 +18,7 @@ export default function Game() {
     const [tourProgress, setTourProgress] = useState(0);
     const [textVideo, setTextVideo] = useState('Votez !');
     const [textVideoBool, setTextVideoBool] = useState(false);
+    const [gameState, setGameState] = useState(null);
     const interval = useRef();
     const socket = useSocket();
     const navigate = useNavigate();
@@ -37,22 +38,46 @@ export default function Game() {
             .then((res) => {
                 setParticipants(res.data.room_info.participants)
                 setRoomInfo(res.data.room_info.config)
+                socket.emit('join-room', {room_id: params.id, user: auth.user});
+
+                socket.emit('request-game', params.id);
                 setLoading(false);
             })
             .catch(() => navigate('/'))
+            
+            socket.on('game-data', (data) => {
+                setGameState(data.state);
+            })
+
+        return () => {
+            socket.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
+        }
     }, [])
 
     useEffect(() => {
-        if (videoRef.current && !loading) {
+        if (videoRef.current && !loading && gameState) {
+            const currentTime = (new Date().getTime() - gameState.timestamp) / 1000;
+            videoRef.current.currentTime = currentTime;
             videoRef.current.addEventListener("timeupdate", handleTourProgress);
             videoRef.current.addEventListener("ended", handleVideoLoop)
+
+            socket.on('loop-started', (data) => {
+                setGameState(data);
+                console.log("loop", data)
+                const currentTime = (new Date().getTime() - data.timestamp) / 1000;
+                console.log(currentTime);
+                videoRef.current.currentTime = currentTime;
+                videoRef.current.play();
+                setVideoLoop(videoLoop + 1);
+            })
         
             return () => {
+                socket.off('game-data');
                 videoRef.current.removeEventListener('timeupdate', handleTourProgress);
                 videoRef.current.removeEventListener("ended", handleVideoLoop);
             }
         }
-    }, [videoLoop, loading])
+    }, [videoLoop, loading, videoRef.current, gameState])
 
     useEffect(() => {
         return ()=> {
@@ -63,25 +88,17 @@ export default function Game() {
     }, [textVideo])
 
     const handleTourProgress = (e) => {
-        const currentTime = parseFloat(localStorage.guessmyelo_timecode);
+        const currentTime = (new Date().getTime() - gameState.timestamp) / 1000;
         const timecode = (videoRef.current.duration * (videoLoop - 1)) + currentTime;
         const totalDuration = roomInfo.nb_loop * videoRef.current.duration;
         setTourProgress((timecode / totalDuration) * 100)
     }
 
-
-    //if (videoLoop > 1) {
-    
-    //if (currentVideoLoop < videoLoop)
-
     const handleVideoLoop = () => {
-        const currentLoop = localStorage.guessmyelo_loop ? parseInt(localStorage.guessmyelo_loop) : videoLoop;
-
+        const currentLoop = videoLoop;
+        console.log(currentLoop, roomInfo.nb_loop)
         if (currentLoop < roomInfo.nb_loop) {
-            videoRef.current.currentTime = localStorage.guessmyelo_timecode ? parseFloat(localStorage.guessmyelo_timecode) : 0;
-            videoRef.current.play();
-            localStorage.setItem('guessmyelo_loop', currentLoop + 1)
-            setVideoLoop(currentLoop + 1);
+            socket.emit('new-loop', params.id);
         } else {
             videoRef.current.pause(); 
             setTextVideoBool(true);
@@ -91,7 +108,6 @@ export default function Game() {
                     setTextVideo((old)=>old-1)
                 }, 1000);
             }, 5000);
-            localStorage.removeItem('guessmyelo_timecode')
         }
     }
 

@@ -34,6 +34,7 @@ export default function Lobby(){
         e.preventDefault();
         axios.post(process.env.REACT_APP_API_URL+'/rooms/update', {room_id: params.id, config: roomInfo, participants})
             .then(() => {
+                console.log(roomInfo);
                 socket.emit('start-game', {room_id: params.id, room_info: roomInfo});
             })
             .catch(err => console.error(err))
@@ -41,7 +42,7 @@ export default function Lobby(){
 
     const updateConfig = (conf) => {
         setRoomInfo((old) => {return {...old, ...conf}});
-        socket.emit('edit-config', {room_id: params.id, room_info: conf});
+        socket.emit('edit-config', {room_id: params.id, room_info: {...roomInfo, ...conf}});
     }
 
     useEffect(() => {
@@ -55,12 +56,12 @@ export default function Lobby(){
 
                 socket.on('update-users', (msg) => {
                     setParticipants(msg.users)
-                    setRoomInfo(msg.roomInfo)
+                    setRoomInfo((old) => {return {...old, ...msg.roomInfo}})
                 })
 
                 if (!isRoomOwner) {
                     socket.on('update-config',(msgRoomInfo) =>{
-                        setRoomInfo(msgRoomInfo)
+                        setRoomInfo((old) => {return {...old, ...msgRoomInfo}})
                     })
                 }
 
@@ -87,13 +88,13 @@ export default function Lobby(){
                     <h1>Paramètres</h1>
                     <form>
                         <label htmlFor="participant">Nombre de participants (3-20):</label>
-                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomInfo.room_size} onChange={(e) => updateConfig({room_size: e.target.value})} disabled={!isRoomOwner}/>
+                        <InputField type={"number"} placeholder="Nombre de participant" id="participant" min="3" max="20" backgroundcolor="#fff" textcolor="#000" value={roomInfo.room_size} onChange={(e) => updateConfig({room_size: parseInt(e.target.value)})} disabled={!isRoomOwner}/>
                         <label htmlFor="nbrVideo">Nombre de vidéo (3-10):</label>
-                        <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_video} onChange={(e) => updateConfig({nb_video: e.target.value})} disabled={!isRoomOwner}/>
+                        <InputField type={"number"} placeholder="Nombre de vidéo" id="nbrVideo" min="3" max="10" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_video} onChange={(e) => updateConfig({nb_video: parseInt(e.target.value)})} disabled={!isRoomOwner}/>
                         <label htmlFor="difficulty">Difficulté :</label>
                         <Select id="difficulty" options={difficultyOptions.map((value) => ({text : Capitalize(value), value }))} value={roomInfo.difficulty} backgroundcolor={"#fff"} textcolor={"#000"} onChange={(e) => updateConfig({difficulty: e.target.value})} disabled={!isRoomOwner}/>
                         <label htmlFor="nbrLoop">Nombre de passage de la vidéo (1-5):</label>
-                        <InputField type={"number"} placeholder="Nombre de passage de la vidéo " id="nbrLoop" min="1" max="5" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_loop} onChange={(e) => updateConfig({nb_loop: e.target.value})} disabled={!isRoomOwner}/>
+                        <InputField type={"number"} placeholder="Nombre de passage de la vidéo " id="nbrLoop" min="1" max="5" backgroundcolor="#fff" textcolor="#000" value={roomInfo.nb_loop} onChange={(e) => updateConfig({nb_loop: parseInt(e.target.value)})} disabled={!isRoomOwner}/>
 
                         <Button onClick={startGame} disabled={!isRoomOwner}>Lancer le jeu</Button>
                     </form>

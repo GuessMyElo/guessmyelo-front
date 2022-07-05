@@ -15,8 +15,12 @@
         display: none;
     }
 
+    .videosection-container {
+        height: fit-content;
+    }
+
     .video-input-label {
-        width: 50%;
+        width: 300px;
         padding: 20px 0;
         margin-bottom: 80px;
         text-align: center;
@@ -32,9 +36,35 @@
         }
     }
 
-    .videosection-container {
-        height: fit-content;
+    .video-preview {
+        width: 500px;
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .videosection-container {
+            height: fit-content;
+            flex: 7;
+        }
+
+        select {
+            height: fit-content;
+            flex: 3;
+        }
+
+        button {
+            background-color: transparent;
+            position: absolute;
+            top: 0;
+            right: 0;
+            transition: 0.2s;
+
+            &:hover {
+                transform: scale(1.2);
+            }
+        }
     }
+
 
     .progressbar {
         margin: 0;

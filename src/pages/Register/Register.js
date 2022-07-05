@@ -1,9 +1,9 @@
 import { useRef } from 'react';
 import Button from '@/shared/components/Button/Button';
 import InputField from '@/shared/components/InputField/InputField';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FloatingCard from 'shared/components/FloatingCard/FloatingCard';
-import axios from 'axios';
+import axios from 'axiosConfig';
 import { useAuthDispatch } from 'context/Auth';
 import './Register.scss';
 import { useState } from 'react';
@@ -15,7 +15,6 @@ export default function Register() {
     const confirmPassword = useRef();
     const dispatch = useAuthDispatch()
 
-    const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
 
     const handleRegister = async (e) => {
@@ -49,9 +48,8 @@ export default function Register() {
 
         if (!errors.length > 0) {
             try {
-                const res = await axios.post(`${process.env.REACT_APP_API_URL}/users/add`, payload);
+                const res = await axios.post("/register", payload);
                 if (!res.error) {
-                    console.log(res);
                     dispatch({type: "LOGIN_SUCCESS", payload: res.data})
                 }
             } catch(err) {
@@ -69,10 +67,10 @@ export default function Register() {
                     <p key={index}>{error}</p>  
                     ))}
                 </div>
-                <InputField placeholder="Username" innerRef={username} />
-                <InputField placeholder="Email" innerRef={email} />
-                <InputField placeholder="Password" innerRef={password} />
-                <InputField placeholder="Confirm password" innerRef={confirmPassword} />
+                <InputField placeholder="Username" inputRef={username} />
+                <InputField type="email" placeholder="Email" inputRef={email} />
+                <InputField type="password" placeholder="Password" inputRef={password} />
+                <InputField type="password" placeholder="Confirm password" inputRef={confirmPassword} />
                 <Button onClick={handleRegister}>Send</Button>
                 <Link to="/login">
                     <Button reversed>Login</Button>

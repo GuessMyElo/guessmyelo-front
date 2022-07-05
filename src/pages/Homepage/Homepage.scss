@@ -1,3 +1,5 @@
+@import '@/global.scss';
+
 .homepage-container {
     display: flex;
     flex-direction: column;
@@ -13,6 +15,13 @@
         align-items: center;
         padding: 20px;
         gap: 30px;
+
+        .user-profile {
+            p {
+                text-align: center;
+                color: $purple-color;
+            }
+        }
 
         .avatar-select {
             display: flex;
@@ -39,6 +48,7 @@
         align-items: center;
         gap: 25px;
         margin-top: 20px;
+        margin-bottom: 20px;
 
         .form-row {
             display: flex;

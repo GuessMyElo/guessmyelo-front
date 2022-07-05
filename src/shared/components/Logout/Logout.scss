@@ -1,0 +1,13 @@
+@import '@/global.scss';
+
+.logout {
+    position: absolute;
+    padding: 10px;
+    border-radius: 50%;
+    top: 25px;
+    right: 25px;
+
+    svg {
+        vertical-align: middle;
+    }
+}

@@ -26,7 +26,7 @@ export default class Auth {
     
     async addUserToDatabase() {
         try {
-            const res = await axios.post(`${process.env.REACT_APP_API_URL}/users/add`, {
+            const res = await axios.post(`${process.env.REACT_APP_API_URL}/register`, {
                 username: this.user.username,
                 email: this.user.email,
                 [`${this.type}_id`]: this.user[`${this.type}_id`],

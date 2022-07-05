@@ -40,7 +40,7 @@ export default function Login() {
                 <h1>Login</h1>
                 { errorMessage && <p>{errorMessage}</p> }
                 <InputField placeholder="Email or Username" inputRef={identifier} />
-                <InputField placeholder="Password" inputRef={password} />
+                <InputField type="password" placeholder="Password" inputRef={password} />
                 <Button onClick={handleLogin} disabled={loading}>Confirm</Button>
                 <Link to="/register">
                     <Button reversed>Register</Button>

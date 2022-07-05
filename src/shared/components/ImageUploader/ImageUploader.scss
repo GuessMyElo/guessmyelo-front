@@ -1,0 +1,25 @@
+@import "@/global.scss";
+.uploader {
+  background-color: $purple-color;
+  border: none;
+  font-weight: bold;
+  border-radius: 3px;
+  transition: background-color 0.35s;
+  color: rgb(197, 197, 197);
+  text-align: center;
+  width: 100%;
+
+  label {
+    cursor: pointer;
+    p {
+      padding: 10px 20px;
+      font-size: 14px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .uploader-input {
+    display: none;
+  }
+}

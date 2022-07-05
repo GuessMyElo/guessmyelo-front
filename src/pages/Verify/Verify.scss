@@ -1,0 +1,39 @@
+@import '@/global.scss';
+
+.verify-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+
+    // p {
+    //     font-size: 40px;
+    // }
+
+    // a {
+    //     color : $purple-color;
+    //     text-decoration: none;
+    // }
+
+    .video {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 15px;
+
+        .videosection-container {
+            width: 300px;
+            height: fit-content;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-around;
+        }
+    }
+}

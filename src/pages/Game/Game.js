@@ -111,6 +111,11 @@ export default function Game() {
         }
     }
 
+    const handleVotingResponse = (votingResponse) => {
+        console.log(params.id,auth.user.id,votingResponse);
+        socket.emit('save-answer',{room_id:params.id,user_id:auth.user.id,answer:votingResponse});
+    }
+
     if (loading) {
         return <p>loading...</p>
     }
@@ -139,7 +144,7 @@ export default function Game() {
                     )}
                     <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
                 </div>
-                <VotingSection />
+                <VotingSection handleVotingResponse={handleVotingResponse}/>
                 <ProgressBar value={tourProgress} />
             </div>
         </div>

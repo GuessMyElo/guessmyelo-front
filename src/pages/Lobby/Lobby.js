@@ -34,7 +34,6 @@ export default function Lobby(){
         e.preventDefault();
         axios.post(process.env.REACT_APP_API_URL+'/rooms/update', {room_id: params.id, config: roomInfo, participants})
             .then(() => {
-                console.log(roomInfo);
                 socket.emit('start-game', {room_id: params.id, room_info: roomInfo});
             })
             .catch(err => console.error(err))

@@ -29,7 +29,7 @@ export default function Game() {
         nb_loop: 2,
         difficulty:'facile'
     });
-    const [videoLoop, setVideoLoop] = useState(1);
+    const [currentVideo, setCurrentVideo] = useState(null);
     const [participants, setParticipants] = useState([]);
     const auth = useAuthState();
 
@@ -45,8 +45,13 @@ export default function Game() {
             })
             .catch(() => navigate('/'))
             
-            socket.on('game-data', (data) => {
-                setGameState(data.state);
+            socket.on('game-data', ({state}) => {
+                console.log(state);
+                console.log("game data");
+                if(state.videos && state.videos[state.current_video] !== null) {
+                    setCurrentVideo(state.videos[state.current_video].url);
+                    setGameState(state);
+                }
             })
 
         return () => {
@@ -68,43 +73,46 @@ export default function Game() {
                 console.log(currentTime);
                 videoRef.current.currentTime = currentTime;
                 videoRef.current.play();
-                setVideoLoop(videoLoop + 1);
             })
         
             return () => {
-                socket.off('game-data');
                 videoRef.current.removeEventListener('timeupdate', handleTourProgress);
                 videoRef.current.removeEventListener("ended", handleVideoLoop);
             }
         }
-    }, [videoLoop, loading, videoRef.current, gameState])
+    }, [loading, videoRef.current, gameState])
 
     useEffect(() => {
         return ()=> {
-            if (textVideo<=1) {
-                return clearInterval(interval.current);
+            if (textVideo===0) {
+                console.log("next video");
+                clearInterval(interval.current);
+                setTextVideoBool(false);
+                setTextVideo("Votez !");
+                return socket.emit("next-video", params.id);
             }
         }
     }, [textVideo])
 
     const handleTourProgress = (e) => {
         const currentTime = (new Date().getTime() - gameState.timestamp) / 1000;
-        const timecode = (videoRef.current.duration * (videoLoop - 1)) + currentTime;
+        const timecode = (videoRef.current.duration * (gameState.loop - 1)) + currentTime;
         const totalDuration = roomInfo.nb_loop * videoRef.current.duration;
         setTourProgress((timecode / totalDuration) * 100)
     }
 
+
     const handleVideoLoop = () => {
-        const currentLoop = videoLoop;
+        const currentLoop = gameState.loop;
         console.log(currentLoop, roomInfo.nb_loop)
         if (currentLoop < roomInfo.nb_loop) {
             socket.emit('new-loop', params.id);
         } else {
-            videoRef.current.pause(); 
+            videoRef.current.pause();
             setTextVideoBool(true);
             setTimeout(() => {
                 setTextVideo(3);
-                interval.current= setInterval(() => {
+                interval.current = setInterval(() => { 
                     setTextVideo((old)=>old-1)
                 }, 1000);
             }, 5000);
@@ -131,13 +139,13 @@ export default function Game() {
             </div>
             <div className='game-right-section'>
                 <NumberRoundSection>
-                    <p>0/{roomInfo.nb_video} ({videoLoop}/{roomInfo.nb_loop})</p>
+                    {gameState!=null && <p>{gameState.current_video}/{roomInfo.nb_video} ({gameState.loop}/{roomInfo.nb_loop})</p>}
                 </NumberRoundSection>
                 <div className='main-section'>
                     {textVideoBool && (
                     <div><p>{textVideo}</p></div>
                     )}
-                    <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
+                    {currentVideo && <VideoSection source={currentVideo} videoRef ={videoRef} />}
                 </div>
                 <VotingSection />
                 <ProgressBar value={tourProgress} />

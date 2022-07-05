@@ -56,6 +56,7 @@ export default function Game() {
 
         return () => {
             socket.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
+            socket.off('game-data')
         }
     }, [])
 
@@ -76,14 +77,24 @@ export default function Game() {
             })
 
             socket.on('answer-saved', (data) => {
-                setParticipants(data);
+                setParticipants(data.users);
                 console.log("answer-saved", data)
                 
             })
+
+            socket.on('user-state-reseted', (data) => {
+                setParticipants(data.users);
+                console.log("user-state-reseted", data)
+                
+            })
+            
         
             return () => {
                 videoRef.current.removeEventListener('timeupdate', handleTourProgress);
                 videoRef.current.removeEventListener("ended", handleVideoLoop);
+                socket.off('answer-saved');
+                socket.off('loop-started');
+                socket.off('user-state-reseted')
             }
         }
     }, [loading, videoRef.current, gameState])
@@ -95,6 +106,7 @@ export default function Game() {
                 clearInterval(interval.current);
                 setTextVideoBool(false);
                 setTextVideo("Votez !");
+                socket.emit("reset-user-state", params.id);
                 return socket.emit("next-video", params.id);
             }
         }
@@ -150,13 +162,13 @@ export default function Game() {
             </div>
             <div className='game-right-section'>
                 <NumberRoundSection>
-                    {gameState!=null && <p>{gameState.current_video}/{roomInfo.nb_video} ({gameState.loop}/{roomInfo.nb_loop})</p>}
+                    {gameState!=null && <p>{gameState.current_video+1}/{roomInfo.nb_video} ({gameState.loop}/{roomInfo.nb_loop})</p>}
                 </NumberRoundSection>
                 <div className='main-section'>
                     {textVideoBool && (
                     <div><p>{textVideo}</p></div>
                     )}
-                    {currentVideo && <VideoSection source={currentVideo} videoRef ={videoRef} />}
+                    {currentVideo && <VideoSection source={currentVideo} videoRef ={videoRef} autoPlay/>}
                 </div>
                 <VotingSection handleVotingResponse={handleVotingResponse}/>
                 <ProgressBar value={tourProgress} />

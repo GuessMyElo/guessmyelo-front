@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Homepage.scss";
 import FloatingCard from "@/shared/components/FloatingCard/FloatingCard";
 import Picture from "@/modules/Player/Avatar/atoms/Picture/Picture";

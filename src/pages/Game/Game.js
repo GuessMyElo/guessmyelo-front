@@ -69,10 +69,10 @@ export default function Game() {
         setTourProgress((timecode / totalDuration) * 100)
     }
 
-
-    //if (videoLoop > 1) {
-    
-    //if (currentVideoLoop < videoLoop)
+    const handleVotingResponse = (votingResponse) => {
+        console.log(params.id,auth.user.id,votingResponse);
+        socket.emit('save-answer',[params.id,auth.user.id,votingResponse]);
+    }
 
     const handleVideoLoop = () => {
         const currentLoop = localStorage.guessmyelo_loop ? parseInt(localStorage.guessmyelo_loop) : videoLoop;
@@ -123,7 +123,7 @@ export default function Game() {
                     )}
                     <VideoSection source={'/videos/video01.mp4'} videoRef ={videoRef} />
                 </div>
-                <VotingSection />
+                <VotingSection handleVotingResponse={handleVotingResponse} />
                 <ProgressBar value={tourProgress} />
             </div>
         </div>

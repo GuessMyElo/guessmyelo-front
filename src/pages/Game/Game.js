@@ -25,7 +25,7 @@ export default function Game() {
     const params = useParams();
     const [roomInfo, setRoomInfo] = useState({
         room_size: 3,
-        nb_video : 5,
+        nb_video : 2,
         nb_loop: 2,
         difficulty:'facile'
     });
@@ -36,7 +36,6 @@ export default function Game() {
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
             .then((res) => {
-                console.log("users", res.data)
                 setParticipants(res.data.users)
                 setRoomInfo(JSON.parse(res.data.room_info.config))
                 socket.emit('join-room', {room_id: params.id, user: auth.user});
@@ -47,27 +46,24 @@ export default function Game() {
             .catch(() => navigate('/'))
             
             socket.on('game-data', ({state}) => {
-                console.log(state);
-                console.log("game data");
-                console.log(state.videos[state.current_video])
                 if(state.videos && state.videos[state.current_video]) {
                     setCurrentVideo(state.videos[state.current_video].url);
                     setGameState(state);
                 }
 
                 else {
+                    socket.emit('handle-user-answer', params.id)
                     navigate(`/scoreboard/${params.id}`, { replace: true })
                 }
             })
 
         return () => {
-            socket.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
-            socket.off('game-data')
+            // socket.emit('leave-room', {room_id: params.id, user_id: auth.user.id})
+            socket.off('game-data');
         }
     }, [])
 
     useEffect(() => {
-        console.log("useff", videoRef.current, loading, gameState)
         if (videoRef.current && !loading && gameState) {
             const currentTime = (new Date().getTime() - gameState.timestamp) / 1000;
             videoRef.current.currentTime = currentTime;
@@ -76,26 +72,21 @@ export default function Game() {
 
             socket.on('loop-started', (data) => {
                 setGameState(data);
-                console.log("loop", data)
                 const currentTime = (new Date().getTime() - data.timestamp) / 1000;
-                console.log(currentTime);
                 videoRef.current.currentTime = currentTime;
                 videoRef.current.play();
             })
 
             socket.on('answer-saved', (data) => {
                 setParticipants(data.users);
-                console.log("answer-saved", data)
                 
             })
 
             socket.on('user-state-reseted', (data) => {
                 setParticipants(data.users);
-                console.log("user-state-reseted", data)
                 
             })
-            
-        
+
             return () => {
                 if (videoRef.current) {
                     videoRef.current.removeEventListener('timeupdate', handleTourProgress);
@@ -109,14 +100,17 @@ export default function Game() {
     }, [loading, videoRef.current, gameState])
 
     useEffect(() => {
+        if (textVideo===0) {
+            clearInterval(interval.current);
+            setTextVideoBool(false);
+            setTextVideo("Votez !");
+            socket.emit("reset-user-state", params.id);
+            socket.emit("next-video", params.id);
+        }
+
         return ()=> {
-            if (textVideo===0) {
-                clearInterval(interval.current);
-                setTextVideoBool(false);
-                setTextVideo("Votez !");
-                socket.emit("reset-user-state", params.id);
-                return socket.emit("next-video", params.id);
-            }
+            socket.off("reset-user-state");
+            socket.off("next-video");
         }
     }, [textVideo])
 
@@ -130,9 +124,7 @@ export default function Game() {
 
     const handleVideoLoop = () => {
         const currentLoop = gameState.loop;
-        console.log("currentLoop", currentLoop)
         if (currentLoop < roomInfo.nb_loop) {
-            console.log("loop")
             socket.emit('new-loop', params.id);
         } else {
             videoRef.current.pause();
@@ -142,12 +134,11 @@ export default function Game() {
                 interval.current = setInterval(() => { 
                     setTextVideo((old)=>old-1)
                 }, 1000);
-            }, 5000);
+            }, 10);
         }
     }
 
     const handleVotingResponse = (votingResponse) => {
-        console.log(params.id,auth.user.id,votingResponse);
         socket.emit('save-answer',{room_id:params.id,user_id:auth.user.id,answer:votingResponse});
     }
 

@@ -12,6 +12,7 @@ import UnAuthRoute from "modules/Route/UnAuthRoute";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Verify from "pages/Verify/Verify";
+import RoomRoute from "modules/Route/RoomRoute";
 
 function App() {
   return (
@@ -20,9 +21,11 @@ function App() {
           <Route element={<AuthRoute redirect="/login" />}>
             <Route exact path="/" element={<Homepage />} />
             <Route exact path='/upload' element={<Upload/>} />
-            <Route exact path='/scoreboard/:id' element={<Scoreboard/>} />
-            <Route exact path='/lobby/:id' element={<Lobby/>} />
-            <Route exact path='/game/:id' element={<Game/>} />
+            <Route element={<RoomRoute />}>
+              <Route exact path='/scoreboard/:id' element={<Scoreboard/>} />
+              <Route exact path='/lobby/:id' element={<Lobby/>} />
+              <Route exact path='/game/:id' element={<Game/>} />
+            </Route>
             <Route exact path="/verify" element={<Verify />} />
           </Route>
           <Route element={<UnAuthRoute redirect="/" />}>

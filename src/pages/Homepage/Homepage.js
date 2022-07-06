@@ -37,7 +37,6 @@ export default function Homepage() {
     e.preventDefault();
     axios.post(process.env.REACT_APP_API_URL+'/rooms/create', {user_id: user.id})
         .then((res) => {
-            console.log(res)
             navigate(`lobby/${res.data.room_id}`)
         })
         .catch((err) => console.log(err))

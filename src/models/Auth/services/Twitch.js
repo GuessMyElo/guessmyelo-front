@@ -7,7 +7,7 @@ export default class Twitch extends Auth {
         super(type);
         this.reponseType = 'token';
         this.scope = 'user:edit user:read:email';
-        this.redirect_uri = 'http://localhost:3000/auth/twitch';
+        this.redirect_uri = process.env.REACT_APP_TWITCH_REDIRECT_URI;
         this.url = `https://id.twitch.tv/oauth2/authorize?response_type=${this.reponseType}&client_id=${process.env.REACT_APP_TWITCH_CLIENT_ID}&redirect_uri=${this.redirect_uri}&scope=${this.scope}`
     }
 

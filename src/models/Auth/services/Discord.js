@@ -7,7 +7,7 @@ export default class Discord extends Auth {
         this.discord_access = null;
         this.response_type = 'code';
         this.scope = 'identify%20email';
-        this.redirect_uri = 'http://localhost:3000/auth/discord';
+        this.redirect_uri = process.env.REACT_APP_DISCORD_REDIRECT_URI;
         this.url = `https://discord.com/api/oauth2/authorize?client_id=${process.env.REACT_APP_DISCORD_CLIENT_ID}&redirect_uri=${this.redirect_uri}&response_type=${this.response_type}&scope=${this.scope}`;
     }
 
@@ -16,7 +16,7 @@ export default class Discord extends Auth {
     }
 
     async getAccessToken(path) {
-        var url = new URL(`http://localhost:3000${path.pathname}${path.search}`);
+        var url = new URL(`${process.env.REACT_APP_BASE_URL}${path.pathname}${path.search}`);
         const code = url.searchParams.get('code');
 
         const params = new URLSearchParams();

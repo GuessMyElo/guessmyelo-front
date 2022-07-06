@@ -48,9 +48,14 @@ export default function Game() {
             socket.on('game-data', ({state}) => {
                 console.log(state);
                 console.log("game data");
-                if(state.videos && state.videos[state.current_video] !== null) {
+                console.log(state.videos[state.current_video])
+                if(state.videos && state.videos[state.current_video]) {
                     setCurrentVideo(state.videos[state.current_video].url);
                     setGameState(state);
+                }
+
+                else {
+                    navigate(`/scoreboard/${params.id}`, { replace: true })
                 }
             })
 
@@ -61,6 +66,7 @@ export default function Game() {
     }, [])
 
     useEffect(() => {
+        console.log("useff", videoRef.current, loading, gameState)
         if (videoRef.current && !loading && gameState) {
             const currentTime = (new Date().getTime() - gameState.timestamp) / 1000;
             videoRef.current.currentTime = currentTime;
@@ -90,8 +96,10 @@ export default function Game() {
             
         
             return () => {
-                videoRef.current.removeEventListener('timeupdate', handleTourProgress);
-                videoRef.current.removeEventListener("ended", handleVideoLoop);
+                if (videoRef.current) {
+                    videoRef.current.removeEventListener('timeupdate', handleTourProgress);
+                    videoRef.current.removeEventListener("ended", handleVideoLoop);
+                }
                 socket.off('answer-saved');
                 socket.off('loop-started');
                 socket.off('user-state-reseted')
@@ -102,7 +110,6 @@ export default function Game() {
     useEffect(() => {
         return ()=> {
             if (textVideo===0) {
-                console.log("next video");
                 clearInterval(interval.current);
                 setTextVideoBool(false);
                 setTextVideo("Votez !");
@@ -122,8 +129,9 @@ export default function Game() {
 
     const handleVideoLoop = () => {
         const currentLoop = gameState.loop;
-        console.log(currentLoop, roomInfo.nb_loop)
+        console.log("currentLoop", currentLoop)
         if (currentLoop < roomInfo.nb_loop) {
+            console.log("loop")
             socket.emit('new-loop', params.id);
         } else {
             videoRef.current.pause();

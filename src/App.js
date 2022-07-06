@@ -20,7 +20,7 @@ function App() {
           <Route element={<AuthRoute redirect="/login" />}>
             <Route exact path="/" element={<Homepage />} />
             <Route exact path='/upload' element={<Upload/>} />
-            <Route exact path='/scoreboard' element={<Scoreboard/>} />
+            <Route exact path='/scoreboard/:id' element={<Scoreboard/>} />
             <Route exact path='/lobby/:id' element={<Lobby/>} />
             <Route exact path='/game/:id' element={<Game/>} />
             <Route exact path="/verify" element={<Verify />} />

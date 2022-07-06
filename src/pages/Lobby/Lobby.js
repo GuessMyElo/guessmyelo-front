@@ -64,8 +64,8 @@ export default function Lobby(){
                     })
                 }
 
-                socket.on('game-started',() =>{
-                    navigate(`/game/${params.id}`)
+                socket.on('game-started',() => {
+                    navigate(`/game/${params.id}`, { replace: true })
                 })
 
             }).catch((e)=>{

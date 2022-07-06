@@ -22,9 +22,9 @@ export default function RoomRoute() {
         }
     }, [step]);
 
-    if(step === "lobby" && page!== "lobby") return <Navigate to={`/lobby/${room_id}`} />
-    if(step === "game" && page!=="game") return <Navigate to={`/game/${room_id}`} />
-    if(step === "scoreboard" && page!=="scoreboard") return <Navigate to={`/scoreboard/${room_id}`} />
+    // if(step === "lobby" && page!== "lobby") return <Navigate to={`/lobby/${room_id}`} />
+    // if(step === "game" && page!=="game") return <Navigate to={`/game/${room_id}`} />
+    // if(step === "scoreboard" && page!=="scoreboard") return <Navigate to={`/scoreboard/${room_id}`} />
 
     return <Outlet />
 }

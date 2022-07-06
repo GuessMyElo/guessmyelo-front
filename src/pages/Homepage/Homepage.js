@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Homepage.scss";
 import FloatingCard from "@/shared/components/FloatingCard/FloatingCard";
 import Picture from "@/modules/Player/Avatar/atoms/Picture/Picture";
@@ -15,6 +15,7 @@ export default function Homepage() {
   const { user } = useAuthState();
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(0);
+  const navigate =  useNavigate();
 
   const handleSendImage = (file) => {
     const formData = new FormData();
@@ -31,6 +32,16 @@ export default function Homepage() {
         setProgress(0);
       });
   };
+
+  const createRoom = (e) => {
+    e.preventDefault();
+    axios.post(process.env.REACT_APP_API_URL+'/rooms/create', {user_id: user.id})
+        .then((res) => {
+            console.log(res)
+            navigate(`lobby/${res.data.room_id}`)
+        })
+        .catch((err) => console.log(err))
+  }
 
   useEffect(() => {
     setFile(user.imageUrl);
@@ -62,9 +73,7 @@ export default function Homepage() {
             <InputField placeholder="Code de la partie" />
             <Button>Rejoindre la partie</Button>
           </div>
-          <Link to="/lobby">
-            <Button>Créer une partie</Button>
-          </Link>
+          <Button onClick={createRoom}>Créer une partie</Button>
           <Link to="/upload">
             <Button reversed>Uploader une video</Button>
           </Link>

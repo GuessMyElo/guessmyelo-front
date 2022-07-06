@@ -7,13 +7,8 @@ const auth_token = localStorage.guessmyelo_auth_token
 let user = null;
 
 if (auth_token) {
-  axios.get("/isAuth", {
-    headers: {
-      authorization: auth_token,
-    },
-  }).then((res) => {
-      
-  });
+  const decryptedToken = jwt_decode(auth_token);
+  user = decryptedToken || null
 }
 
 export const initialState = {

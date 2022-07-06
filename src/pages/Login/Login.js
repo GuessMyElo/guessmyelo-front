@@ -30,7 +30,7 @@ export default function Login() {
     }
 
     const startAuthProcess = (type) => {
-        const service = new (new AuthFactory().createByType(type))(type)
+        const service = new AuthFactory().createByType(type);
         service.redirect();
     }
 

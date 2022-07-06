@@ -10,7 +10,7 @@ export default function AuthRedirect() {
     
     useEffect(() => {
         dispatch({type: "REQUEST_LOGIN"});
-        const service = new (new AuthFactory().createByType(params.type))(params.type)
+        const service = new AuthFactory().createByType(params.type);
         service.connect(location).then(async () => {
             const savedUser = await service.addUserToDatabase();
             dispatch({type: "LOGIN_SUCCESS", payload: savedUser});

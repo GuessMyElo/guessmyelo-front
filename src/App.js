@@ -15,35 +15,35 @@ import Verify from "pages/Verify/Verify";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route element={<AuthRoute redirect="/login" />}>
-          <Route exact path="/" element={<Homepage />} />
-          <Route exact path="/upload" element={<Upload />} />
-          <Route exact path="/scoreboard" element={<Scoreboard />} />
-          <Route exact path="/lobby" element={<Lobby />} />
-          <Route exact path="/game" element={<Game />} />
-          <Route exact path="/verify" element={<Verify />} />
-        </Route>
-        <Route element={<UnAuthRoute redirect="/" />}>
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/auth/:type" element={<AuthRedirect />} />
-        </Route>
-      </Routes>
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        theme="colored"
-        newestOnTop
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        pauseOnHover
-        draggable
-      />
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<AuthRoute redirect="/login" />}>
+            <Route exact path="/" element={<Homepage />} />
+            <Route exact path='/upload' element={<Upload/>} />
+            <Route exact path='/scoreboard/:id' element={<Scoreboard/>} />
+            <Route exact path='/lobby/:id' element={<Lobby/>} />
+            <Route exact path='/game/:id' element={<Game/>} />
+            <Route exact path="/verify" element={<Verify />} />
+          </Route>
+          <Route element={<UnAuthRoute redirect="/" />}>
+            <Route exact path='/login' element={<Login/>} />
+            <Route exact path='/register' element={<Register/>} />
+            <Route exact path='/auth/:type' element={<AuthRedirect/>} />
+          </Route>
+        </Routes>
+        <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          theme="colored"
+          newestOnTop
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          pauseOnHover
+          draggable
+        />
+      </BrowserRouter>
   );
 }
 

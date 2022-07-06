@@ -9,7 +9,7 @@
         position: absolute;
         top: 0;
         content: "";
-        height: 10%;
+        height: 50px;
         width: 100%;
         z-index: 9999;
         left: 0;
@@ -19,7 +19,7 @@
         position: absolute;
         bottom: 0;
         content: "";
-        height: 10%;
+        height: 50px;
         width: 100%;
         z-index: 9999;
         left: 0;
@@ -48,11 +48,11 @@
 
 }
 .left{
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
 }
 
 .right{
-    border-top-left-radius: 50px;
-    border-bottom-left-radius: 50px; 
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px; 
 }

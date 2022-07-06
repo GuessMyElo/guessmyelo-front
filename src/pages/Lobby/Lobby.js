@@ -47,6 +47,7 @@ export default function Lobby(){
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
             .then((res) => {
+                console.log(res);
                 setParticipants(res.data.users);
                 setIsRoomOwner(res.data.room_info.room_owner===auth.user.id)
                 setRoomOwner(res.data.room_info.room_owner)

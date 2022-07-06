@@ -36,7 +36,8 @@ export default function Game() {
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
             .then((res) => {
-                setParticipants(res.data.room_info.participants)
+                console.log("users", res.data.users)
+                setParticipants(res.data.users)
                 setRoomInfo(res.data.room_info.config)
                 socket.emit('join-room', {room_id: params.id, user: auth.user});
 

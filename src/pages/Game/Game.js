@@ -56,6 +56,7 @@ export default function Game() {
                 }
 
                 else {
+                    socket.emit('handle-user-answer', params.id)
                     navigate(`/scoreboard/${params.id}`, { replace: true })
                 }
             })
@@ -94,6 +95,9 @@ export default function Game() {
                 console.log("user-state-reseted", data)
                 
             })
+
+            
+
             
         
             return () => {
@@ -142,7 +146,7 @@ export default function Game() {
                 interval.current = setInterval(() => { 
                     setTextVideo((old)=>old-1)
                 }, 1000);
-            }, 5000);
+            }, 10);
         }
     }
 

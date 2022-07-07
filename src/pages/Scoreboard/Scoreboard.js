@@ -35,7 +35,7 @@ export default function Scoreboard(){
                 <h1>Classement</h1>
                 <div className='scoreboard-list'>
                     {users.sort((a, b) => b.points - a.points).map((user, index) => (
-                        <ScoreboardItem key={index} player={user.username} score={user.points} />
+                        <ScoreboardItem key={index} player={user.username} score={user.points} image={user.imageUrl ?? "/images/player.jpg"} />
                     ))}
                 </div>
                 

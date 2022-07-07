@@ -51,7 +51,7 @@ export default function Game() {
                     setCurrentVideo(state.videos[state.current_video].url);
                     setGameState(state);
                 } else {
-                    socket.emit('handle-user-answer', params.id)
+                    socket.emit('handle-user-answer', params.id);
                     navigate(`/scoreboard/${params.id}`, { replace: true })
                 }
             })
@@ -134,7 +134,7 @@ export default function Game() {
                 interval.current = setInterval(() => { 
                     setTextVideo((old)=>old-1)
                 }, 1000);
-            }, 10);
+            }, 7000);
         }
     }
 

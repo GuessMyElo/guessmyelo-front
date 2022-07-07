@@ -50,9 +50,7 @@ export default function Game() {
                 if(state.videos && state.videos[state.current_video]) {
                     setCurrentVideo(state.videos[state.current_video].url);
                     setGameState(state);
-                }
-
-                else {
+                } else {
                     socket.emit('handle-user-answer', params.id)
                     navigate(`/scoreboard/${params.id}`, { replace: true })
                 }

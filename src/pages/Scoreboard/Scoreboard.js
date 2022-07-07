@@ -34,7 +34,7 @@ export default function Scoreboard(){
             <FloatingCard>
                 <h1>Classement</h1>
                 <div className='scoreboard-list'>
-                    {users.map((user, index) => (
+                    {users.sort((a, b) => b.points - a.points).map((user, index) => (
                         <ScoreboardItem key={index} player={user.username} score={user.points} />
                     ))}
                 </div>

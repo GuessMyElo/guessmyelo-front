@@ -3,3 +3,8 @@ $secondary-color: #121834;
 $purple-color: #6953C3;
 $purple-hover-color: #534197;
 $green-checkbox-color:#2ACE5B;
+
+:export {
+    backgroundColorButtonUnchecked : $secondary-color;
+    backgroundColorButtonChecked : $green-checkbox-color;
+}

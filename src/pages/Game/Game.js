@@ -32,6 +32,7 @@ export default function Game() {
     const [currentVideo, setCurrentVideo] = useState(null);
     const [participants, setParticipants] = useState([]);
     const auth = useAuthState();
+    const [answer, setAnswer] = useState('');
 
     useEffect(() => {
         axios.get(process.env.REACT_APP_API_URL+'/rooms/'+params.id)
@@ -79,12 +80,14 @@ export default function Game() {
 
             socket.on('answer-saved', (data) => {
                 setParticipants(data.users);
+                // const index = data.users.findIndex(user => user.id === auth.user.id)
+                setAnswer(data.answer)
                 
             })
 
             socket.on('user-state-reseted', (data) => {
                 setParticipants(data.users);
-                
+                setAnswer('')
             })
 
             return () => {
@@ -170,7 +173,7 @@ export default function Game() {
                     )}
                     {currentVideo && <VideoSection source={currentVideo} videoRef ={videoRef} autoPlay/>}
                 </div>
-                <VotingSection handleVotingResponse={handleVotingResponse}/>
+                <VotingSection handleVotingResponse={handleVotingResponse} answer={answer}/>
                 <ProgressBar value={tourProgress} />
             </div>
         </div>

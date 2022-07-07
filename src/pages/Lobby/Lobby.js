@@ -103,7 +103,7 @@ export default function Lobby(){
                 <SidePanel position={"right"}>
                     <div className='lobby-player-list'>
                         {participants.map(p => (
-                            <NamedAvatar username={p.username} src="images/player.jpg" size={100} key={p.id} owner={p.id===roomOwner}/>
+                            <NamedAvatar username={p.username} src={p.imageUrl ?? "/images/player.jpg"} size={100} key={p.id} owner={p.id===roomOwner}/>
                         ))}
                     </div>
                 </SidePanel>

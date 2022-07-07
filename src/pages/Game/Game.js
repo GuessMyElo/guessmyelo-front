@@ -155,7 +155,7 @@ export default function Game() {
                 <SidePanel position={"left"}>
                     <div className='game-player-list'>
                         {participants.map((u) => (
-                            <GameAvatar src="/images/player.jpg" size="80" status={ u.answered ? "done":"waiting"} key={u.id} />
+                            <GameAvatar src={u.imageUrl ?? "/images/player.jpg"} size="80" status={ u.answered ? "done":"waiting"} key={u.id} />
                         ))}
                     </div>
                 </SidePanel>

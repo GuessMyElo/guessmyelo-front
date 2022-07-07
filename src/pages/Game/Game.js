@@ -79,8 +79,7 @@ export default function Game() {
             socket.on('answer-saved', (data) => {
                 setParticipants(data.users);
                 // const index = data.users.findIndex(user => user.id === auth.user.id)
-                setAnswer(data.answer)
-                
+                if(data.id === auth.user.id) setAnswer(data.answer)
             })
 
             socket.on('user-state-reseted', (data) => {

@@ -134,7 +134,7 @@ export default function Game() {
                 interval.current = setInterval(() => { 
                     setTextVideo((old)=>old-1)
                 }, 1000);
-            }, 7000);
+            }, 6000);
         }
     }
 

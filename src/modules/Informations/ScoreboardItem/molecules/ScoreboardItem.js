@@ -1,10 +1,10 @@
 import Picture from '@/modules/Player/Avatar/atoms/Picture/Picture';
 import './ScoreboardItem.scss';
 
-export default function ScoreboardItem({player, score, isEven}) {
+export default function ScoreboardItem({player, score, isEven, image}) {
     return (
         <div className={'scoreboard-item ' + (isEven ? 'even-item' : '')}>
-            <Picture src="images/player.jpg" size="40" />
+            <Picture src={image} size="40" />
             <p>{player} - {score} pts</p>
         </div>
     )

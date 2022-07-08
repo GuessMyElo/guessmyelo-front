@@ -47,7 +47,7 @@ export default function Upload() {
         folder,
       });
       const signData = await signResponse.data;
-      const url = `http://api.cloudinary.com/v1_1/${signData.cloudname}/video/upload`;
+      const url = `https://api.cloudinary.com/v1_1/${signData.cloudname}/video/upload`;
 
       const formData = new FormData();
 
